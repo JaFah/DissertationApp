@@ -2,10 +2,13 @@ package com.clmain.dissertationapp;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
+import com.clmain.dissertationapp.activities.DictionaryActivity;
 import com.clmain.dissertationapp.fragments.MainMenuFragment;
 
 public class MenuActivity extends AppCompatActivity {
@@ -21,5 +24,8 @@ public class MenuActivity extends AppCompatActivity {
         ft.commit();
     }
 
-
+    public void dictionaryButtonOnClick(View view) {
+        Intent intent = new Intent(this, DictionaryActivity.class);
+        startActivity(intent);
+    }
 }

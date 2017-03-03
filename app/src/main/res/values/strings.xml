@@ -6,4 +6,7 @@
 
     <string name="button_dictionary">Climbing Dictionary</string>
     <string name="button_log">Equipment Log</string>
+
+    <string name="textView_beta">Beta</string>
+
 </resources>
