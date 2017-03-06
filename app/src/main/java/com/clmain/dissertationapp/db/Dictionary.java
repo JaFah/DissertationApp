@@ -5,41 +5,41 @@ package com.clmain.dissertationapp.db;
  */
 
 public class Dictionary {
-    private int DictionaryId;
-    private String name;
-    private String Description;
-    private String ImageLocation;
+    private int dictionaryId;
+    private String title;
+    private String description;
+    private String imageLocation;
 
     public int getDictionaryId() {
-        return DictionaryId;
+        return dictionaryId;
     }
 
     public void setDictionaryId(int dictionaryId) {
-        DictionaryId = dictionaryId;
+        dictionaryId = dictionaryId;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        description = description;
     }
 
     public String getImageLocation() {
-        return ImageLocation;
+        return imageLocation;
     }
 
     public void setImageLocation(String imageLocation) {
-        ImageLocation = imageLocation;
+        imageLocation = imageLocation;
     }
 
     public Dictionary() {

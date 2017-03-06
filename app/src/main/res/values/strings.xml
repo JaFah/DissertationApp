@@ -9,4 +9,10 @@
 
     <string name="textView_beta">Beta</string>
 
+
+    <string-array name="navMenu">
+        <item>Dictionary</item>
+        <item>Gear Log</item>
+    </string-array>
+
 </resources>
