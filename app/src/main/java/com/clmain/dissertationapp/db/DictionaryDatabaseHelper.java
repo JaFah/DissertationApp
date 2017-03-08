@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by user on 03/03/2017.
  */
@@ -88,21 +91,24 @@ public class DictionaryDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public Dictionary readAllDictionaryEntries() {
+    public List<Dictionary> readAllDictionaryEntries() {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_DICTIONARY;
 
         Cursor c = db.rawQuery(query, null);
+        List<Dictionary> dictionaries = new ArrayList<>();
         Dictionary dictionary = new Dictionary();
-        if(c!=null) {
-            c.moveToFirst();
 
-            dictionary.setDictionaryId(c.getInt(c.getColumnIndex(COLUMN_ID_DICTIONARY)));
-            dictionary.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
-            dictionary.setDescription(c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)));
-            dictionary.setImageLocation(c.getString(c.getColumnIndex(COLUMN_IMAGE_LOCATION)));
+        if(c.moveToFirst()) {
+            do {
+                dictionary.setDictionaryId(c.getInt(c.getColumnIndex(COLUMN_ID_DICTIONARY)));
+                dictionary.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
+                dictionary.setDescription(c.getString(c.getColumnIndex(COLUMN_DESCRIPTION)));
+                dictionary.setImageLocation(c.getString(c.getColumnIndex(COLUMN_IMAGE_LOCATION)));
+                dictionaries.add(dictionary);
+            }while(c.moveToNext());
         }
-        return dictionary;
+        return dictionaries;
     }
 
     public Dictionary readDictionaryEntry(long entry_id) {

@@ -1,6 +1,7 @@
 package com.clmain.dissertationapp.activities;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import com.clmain.dissertationapp.R;
 import com.clmain.dissertationapp.db.Dictionary;
 import com.clmain.dissertationapp.db.DictionaryDatabaseHelper;
 import com.clmain.dissertationapp.db.DictionaryTags;
+
+import java.util.List;
 
 public class DictionaryActivity extends AppCompatActivity {
 
@@ -37,6 +40,11 @@ public class DictionaryActivity extends AppCompatActivity {
         navListView = (ListView)findViewById(R.id.left_drawer);
         //TODO: Fix left hand navigation drawer
         //navDrawerLayout.setAdapter(new ArrayAdapter<String>(this, R.layout.activity_dictionary, navMenuTitles));
+
+        debug_populateDb();
+        displayDictionary();
+
+
 
     }
 
@@ -63,16 +71,26 @@ public class DictionaryActivity extends AppCompatActivity {
     private void debug_populateDb() {
         Dictionary dictionary = new Dictionary();
 
-        dictionary.setTitle("Beta");
-        dictionary.setDescription("Advice on the best way to complete a route ");
-
-        //TODO: Finish debug_populateDB
+        dictionary.setTitle("Crimp");
+        dictionary.setDescription("Very narrow hand hold where only the tips of the fingers have purchase");
+        dictionary.setImageLocation("@mipmap/image_crimp.png");
 
         DictionaryDatabaseHelper ddb = new DictionaryDatabaseHelper(this);
         System.out.println("Probably going to crash here");
         ddb.createDictionaryEntry(dictionary, new DictionaryTags());
-        //TODO: Finish debug_populateDB TEST IT!!!!
 
+        dictionary.setTitle("Beta");
+        dictionary.setTitle("Advice on how to complete a route");
+        dictionary.setImageLocation("");
+        ddb.createDictionaryEntry(dictionary, new DictionaryTags());
+    }
 
+    private void displayDictionary() {
+        DictionaryDatabaseHelper ddb = new DictionaryDatabaseHelper(this);
+
+        List<Dictionary> entries = ddb.readAllDictionaryEntries();
+        for(int i=0;i<entries.size();i++) {
+            //TODO: Implement database display
+        }
     }
 }
