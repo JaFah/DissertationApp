@@ -1,7 +1,8 @@
-package com.clmain.dissertationapp.activities;
+package com.clmain.dissertationapp.ui;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,10 +11,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.clmain.dissertationapp.MenuActivity;
 import com.clmain.dissertationapp.R;
 import com.clmain.dissertationapp.db.Dictionary;
 import com.clmain.dissertationapp.db.DictionaryDatabaseHelper;
@@ -21,7 +22,7 @@ import com.clmain.dissertationapp.db.DictionaryTags;
 
 import java.util.List;
 
-public class DictionaryActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private String[] navMenuTitles;
     private DrawerLayout navDrawerLayout;
@@ -30,22 +31,20 @@ public class DictionaryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dictionary);
+        setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.dictionary_toolbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
         navMenuTitles = getResources().getStringArray(R.array.navMenu);
-        navDrawerLayout = (DrawerLayout)findViewById(R.id.activity_dictionary);
+        navDrawerLayout = (DrawerLayout)findViewById(R.id.activity_main);
         navListView = (ListView)findViewById(R.id.left_drawer);
-        //TODO: Fix left hand navigation drawer
-        //navDrawerLayout.setAdapter(new ArrayAdapter<String>(this, R.layout.activity_dictionary, navMenuTitles));
+
+        navListView.setAdapter(new ArrayAdapter<String>(this,R.layout.list_nav_drawer, navMenuTitles));
+        navListView.setOnItemClickListener(new DrawerItemClickListener());
 
         debug_populateDb();
         displayDictionary();
-
-
-
     }
 
     @Override
@@ -90,7 +89,63 @@ public class DictionaryActivity extends AppCompatActivity {
 
         List<Dictionary> entries = ddb.readAllDictionaryEntries();
         for(int i=0;i<entries.size();i++) {
-            //TODO: Implement database display
+
         }
     }
+
+
+    /**
+     * Created by user on 12/03/2017.
+     */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position, view);
+        }
+
+        private void selectItem(int position, View view) {
+            System.out.println("Button Pressed, pos="+position);
+
+            Fragment frag;
+            FragmentManager fragmentManager;
+
+            switch(position) {
+                case 0:
+                    //Dictionary
+                    frag = new DictionaryFragment();
+                    //Bundle args = new Bundle();
+                    //args.putInt(DictionaryFragment.ARGUMENT, POSITION);
+                    //frag.setArguments(args);
+                    fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, frag).commit();
+
+                    navListView.setItemChecked(position, true);
+                    setTitle(navMenuTitles[position]);
+                    navDrawerLayout.closeDrawer(navListView);
+                    break;
+                case 1:
+                    //Gear Log
+                    frag = new GearLogFragment();
+                    //Bundle args = new Bundle();
+                    //args.putInt(DictionaryFragment.ARGUMENT, POSITION);
+                    //frag.setArguments(args);
+                    fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, frag).commit();
+
+                    navListView.setItemChecked(position, true);
+                    setTitle(navMenuTitles[position]);
+                    navDrawerLayout.closeDrawer(navListView);
+
+                    break;
+                default:
+                    //broken
+                    break;
+            }
+        }
+    }
+
+
 }
+
+

@@ -8,7 +8,7 @@
         android:icon="@drawable/ic_menu_black_24dp"
         app:showAsAction="always" />-->
     <item
-    android:id="@id/dictionary_button"
+    android:id="@+id/dictionary_button"
     android:title="@string/button_dictionary"
     app:showAsAction="never"/>
 </menu>

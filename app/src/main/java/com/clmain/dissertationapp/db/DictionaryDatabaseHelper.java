@@ -17,7 +17,7 @@ public class DictionaryDatabaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
 
-    private static final int DATABASE_VERSION=0;
+    private static final int DATABASE_VERSION=1;
 
     private static final String DATABASE_NAME = "climbingApp";
 

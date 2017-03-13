@@ -1,15 +1,13 @@
-package com.clmain.dissertationapp;
+package com.clmain.dissertationapp.ui;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.clmain.dissertationapp.activities.DictionaryActivity;
-import com.clmain.dissertationapp.fragments.MainMenuFragment;
+import com.clmain.dissertationapp.R;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -20,12 +18,12 @@ public class MenuActivity extends AppCompatActivity {
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.main_frame_layout, new MainMenuFragment());
-        ft.commit();
+        //ft.add(R.id.main_frame_layout, new MainMenuFragment());
+        //ft.commit();
     }
 
     public void dictionaryButtonOnClick(View view) {
-        Intent intent = new Intent(this, DictionaryActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }
