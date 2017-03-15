@@ -1,20 +1,18 @@
 package com.clmain.dissertationapp.ui;
 
-import android.content.Context;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.clmain.dissertationapp.R;
 import com.clmain.dissertationapp.db.Dictionary;
-import com.clmain.dissertationapp.db.DictionaryDatabaseHelper;
+import com.clmain.dissertationapp.db.DatabaseHelper;
 
 import java.util.List;
 
@@ -47,17 +45,21 @@ public class DictionaryFragment extends Fragment {
 
     }
 
-    private void populateDictionary() {
-        DictionaryDatabaseHelper db = new DictionaryDatabaseHelper(super.getContext());
+    private void displayDictionary() {
+        DatabaseHelper db = new DatabaseHelper(super.getContext());
         List<Dictionary> entries = db.readAllDictionaryEntries();
 
-        RelativeLayout layout = (RelativeLayout)getView().findViewById(R.id.dictionary_content);
+        FrameLayout layout = (FrameLayout)getView().findViewById(R.id.dictionary_content);
         for(int i=0; i<entries.size(); i++) {
             TextView title = new TextView(super.getContext());
+
             System.out.println("Title: " + entries.get(i).getTitle() + ". Array Length: " + entries.size());
+
             title.setText(entries.get(i).getTitle());
+            title.setId(i);
             String tag = "title" + i;
             title.setTag(tag);
+
             if(i!=0) {
                 RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)title.getLayoutParams();
                 //lp.addRule(RelativeLayout.BELOW,(TextView)findViewWithTag("description"+(i-1)));
@@ -69,6 +71,7 @@ public class DictionaryFragment extends Fragment {
             RelativeLayout.LayoutParams lpd = (RelativeLayout.LayoutParams)description.getLayoutParams();
             //lpd.addRule(RelativeLayout.BELOW, (TextView)getView().findViewWithTag("title"+i).getId());
             layout.addView(description);
+
 
             switch(entries.get(i).getTitle()) {
                 case "Crimp":
@@ -94,7 +97,8 @@ public class DictionaryFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        populateDictionary();
+        displayDictionary();
+
     }
 
 

@@ -2,13 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
-    tools:context="com.clmain.dissertationapp.ui.DictionaryFragment">
+    tools:context="com.clmain.dissertationapp.ui.NewClimbFragment">
 
-    <FrameLayout
-        android:id="@+id/dictionary_content"
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:text="New Climb entry" />
 
-    </FrameLayout>
 </FrameLayout>

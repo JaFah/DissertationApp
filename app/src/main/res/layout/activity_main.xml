@@ -6,10 +6,11 @@
     android:layout_height="match_parent">
 
     <!--Content-->
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         >
         <android.support.v7.widget.Toolbar android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
@@ -18,13 +19,12 @@
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-        <ScrollView
+        <FrameLayout
             android:id="@+id/main_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="?attr/actionBarSize">
-        </ScrollView>
-    </FrameLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+    </LinearLayout>
     <!--Nav Drawer-->
     <ListView android:id="@+id/left_drawer"
         android:layout_width="240dp"

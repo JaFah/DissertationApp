@@ -6,11 +6,13 @@
 
     <string name="button_dictionary">Climbing Dictionary</string>
     <string name="button_log">Equipment Log</string>
+    <string name="button_new_entry">New Entry</string>
 
     <string name="textView_beta">Beta</string>
 
 
     <string-array name="navMenu">
+        <item>Climbing Log</item>
         <item>Dictionary</item>
         <item>Gear Log</item>
     </string-array>
