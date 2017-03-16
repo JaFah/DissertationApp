@@ -8,9 +8,19 @@ public class ClimbingLogbook {
     private int ID;
     private String date;
     private String location;
+    private String name;
     private String Grade;
     private String Style;
     private String Comments;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public int getID() {
         return ID;

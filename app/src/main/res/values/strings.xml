@@ -8,11 +8,14 @@
     <string name="button_log">Equipment Log</string>
     <string name="button_new_entry">New Entry</string>
     <string name="button_date">Enter Date</string>
+    <string name="button_submit">Submit</string>
 
     <!--Buttons-->
     <string name="text_view_beta">Beta</string>
     <string name="text_view_new_climb_title">New Climb</string>
     <string name="text_view_grade">Select Grade Style</string>
+    <string name="text_view_style">Select Climbing Style</string>
+
 
     <!--editTexts-->
     <string name="edit_hint_climb_name">Enter Climb Name</string>

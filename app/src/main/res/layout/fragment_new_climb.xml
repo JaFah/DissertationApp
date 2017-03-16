@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_new_climb"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_date"
-        android:onClick="showDatePickerDialog"
+        android:onClick="onClick"
         android:layout_below="@id/text_climb_title"
         style="@style/climbLog"
     />
@@ -40,23 +41,35 @@
         android:layout_below="@id/edit_climb_name"
         style="@style/climbLog"/>
 
+    <TextView
+        android:id="@+id/text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/climbLog"
+        android:textStyle="bold"
+        android:text="@string/text_view_style"
+        android:layout_below="@id/edit_location"/>
     <Spinner
         android:id="@+id/spinner_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/spinner_hint_style"
-        android:layout_below="@id/edit_location"
+        android:layout_below="@id/text_style"
         style="@style/climbLog"/>
-
+    <TextView
+        android:id="@+id/text_grade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/climbLog"
+        android:textStyle="bold"
+        android:text="@string/text_view_grade"
+        android:layout_below="@id/spinner_style"/>
     <Spinner
         android:id="@+id/spinner_grade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:spinnerMode="dialog"
-        android:prompt="@string/spinner_hint_grade"
-        android:layout_below="@id/spinner_style"
-        style="@style/climbLog">
-    </Spinner>
+        android:layout_below="@id/text_grade"
+        style="@style/climbLog"/>
     <EditText
         android:id="@+id/edit_grade"
         android:layout_width="match_parent"
@@ -75,6 +88,19 @@
         android:layout_marginLeft="8dp"
         android:paddingLeft="8dp"
         android:paddingBottom="20dp"
+        />
+
+    <Button
+
+        android:id="@+id/button_enter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_submit"
+        style="@style/climbLog"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:onClick="onClick"
+        android:layout_alignParentBottom="true"
         />
 
 </RelativeLayout>

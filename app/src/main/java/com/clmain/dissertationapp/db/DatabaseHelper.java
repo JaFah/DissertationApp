@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
 
-    private static final int DATABASE_VERSION=1;
+    private static final int DATABASE_VERSION=2;
 
     private static final String DATABASE_NAME = "climbingApp";
 
@@ -39,6 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //TABLE_CLIMBING_LOGBOOK Column Names
     private static final String COLUMN_ID_CLIMB_LOG = "climb_id";
     private static final String COLUMN_DATE="date";
+    private static final String COLUMN_NAME="name";
     private static final String COLUMN_LOCATION="location";
     private static final String COLUMN_GRADE="grade";
     private static final String COLUMN_STYLE="style";
@@ -59,9 +60,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_TAGS + "TEXT" + ")";
 
     private static final String CREATE_TABLE_LOGBOOK = "CREATE TABLE " +
-            TABLE_CLIMBING_LOGBOOK +" ( " +
+            TABLE_CLIMBING_LOGBOOK +"( " +
             COLUMN_ID_CLIMB_LOG + " INTEGER PRIMARY KEY, " +
             COLUMN_DATE + " TEXT, " +
+            COLUMN_NAME + " TEXT, " +
             COLUMN_LOCATION + " TEXT, " +
             COLUMN_GRADE + " TEXT, " +
             COLUMN_STYLE + " TEXT, " +
@@ -103,7 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DESCRIPTION, dictionary.getDescription());
         values.put(COLUMN_IMAGE_LOCATION, COLUMN_IMAGE_LOCATION);
 
-        long row_id = db.insert(TABLE_DICTIONARY, null, values);
+        db.insert(TABLE_DICTIONARY, null, values);
 
         //TODO: Implement Add Tags
         closeDB();
@@ -177,7 +179,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //TODO implement CRUD for logbook table
 
     public void createClimbLogEntry(ClimbingLogbook log) {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        //TODO - Date
+        // values.put(COLUMN_DATE, log.getDate());
+        values.put(COLUMN_NAME, log.getName());
+        values.put(COLUMN_LOCATION, log.getLocation());
+        values.put(COLUMN_STYLE, log.getStyle());
+        values.put(COLUMN_GRADE, log.getGrade());
+        values.put(COLUMN_COMMENTS, log.getComments());
+        long row_id = db.insert(TABLE_CLIMBING_LOGBOOK, null, values);
+        closeDB();
     }
 
     public ClimbingLogbook readClimbLogEntry(long entry_id) {
@@ -185,7 +198,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<ClimbingLogbook> readAllClimbLogEntries() {
-        return new ArrayList<ClimbingLogbook>();
+        List<ClimbingLogbook> logs = new ArrayList<ClimbingLogbook>();
+        String query = "SELECT * FROM " + TABLE_CLIMBING_LOGBOOK;
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor c = db.rawQuery(query, null);
+
+        if(c.moveToFirst()) {
+            do {
+                ClimbingLogbook log = new ClimbingLogbook();
+                //log.setDate();
+                log.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
+                log.setLocation(c.getString(c.getColumnIndex(COLUMN_LOCATION)));
+                log.setStyle(c.getString(c.getColumnIndex(COLUMN_STYLE)));
+                log.setGrade(c.getString(c.getColumnIndex(COLUMN_GRADE)));
+                log.setComments(c.getString(c.getColumnIndex(COLUMN_COMMENTS)));
+
+                logs.add(log);
+
+            }while(c.moveToNext());
+        }
+
+        return logs;
     }
 
     public void updateClimbLogEntry(ClimbingLogbook log) {

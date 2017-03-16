@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         navListView.setAdapter(new ArrayAdapter<String>(this,R.layout.list_nav_drawer, navMenuTitles));
         navListView.setOnItemClickListener(new DrawerItemClickListener());
 
-        debug_populateDb();
+        //debug_populateDb();
     }
 
     @Override
