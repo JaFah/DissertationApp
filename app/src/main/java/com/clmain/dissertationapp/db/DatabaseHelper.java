@@ -176,4 +176,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //TODO implement CRUD for logbook table
 
+    public void createClimbLogEntry(ClimbingLogbook log) {
+
+    }
+
+    public ClimbingLogbook readClimbLogEntry(long entry_id) {
+        return new ClimbingLogbook();
+    }
+
+    public List<ClimbingLogbook> readAllClimbLogEntries() {
+        return new ArrayList<ClimbingLogbook>();
+    }
+
+    public void updateClimbLogEntry(ClimbingLogbook log) {
+
+    }
+
+    public void deleteCimbLogEntry(long entry_id) {
+
+    }
+
 }

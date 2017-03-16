@@ -1,13 +1,80 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.clmain.dissertationapp.ui.NewClimbFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="New Climb entry" />
+<TextView
+    android:id="@+id/text_climb_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/text_view_new_climb_title"
+    android:textSize="26dp"
+    android:layout_margin="8dp"
+    android:textStyle="bold"/>
 
-</FrameLayout>
+    <Button
+        android:id="@+id/button_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_date"
+        android:onClick="showDatePickerDialog"
+        android:layout_below="@id/text_climb_title"
+        style="@style/climbLog"
+    />
+
+    <EditText
+        android:id="@+id/edit_climb_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_hint_climb_name"
+        android:layout_below="@id/button_date"
+        style="@style/climbLog"
+        />
+    <EditText
+        android:id="@+id/edit_location"
+        android:layout_width="match_parent"
+        android:padding="8dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_hint_location"
+        android:layout_below="@id/edit_climb_name"
+        style="@style/climbLog"/>
+
+    <Spinner
+        android:id="@+id/spinner_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/spinner_hint_style"
+        android:layout_below="@id/edit_location"
+        style="@style/climbLog"/>
+
+    <Spinner
+        android:id="@+id/spinner_grade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dialog"
+        android:prompt="@string/spinner_hint_grade"
+        android:layout_below="@id/spinner_style"
+        style="@style/climbLog">
+    </Spinner>
+    <EditText
+        android:id="@+id/edit_grade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_hint_grade"
+        android:layout_below="@id/spinner_grade"
+        style="@style/climbLog"
+        />
+    <EditText
+        android:id="@+id/edit_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_hint_comments"
+        android:layout_below="@id/edit_grade"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:paddingLeft="8dp"
+        android:paddingBottom="20dp"
+        />
+
+</RelativeLayout>

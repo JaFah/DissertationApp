@@ -3,19 +3,49 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!--Buttons-->
     <string name="button_dictionary">Climbing Dictionary</string>
     <string name="button_log">Equipment Log</string>
     <string name="button_new_entry">New Entry</string>
+    <string name="button_date">Enter Date</string>
 
-    <string name="textView_beta">Beta</string>
+    <!--Buttons-->
+    <string name="text_view_beta">Beta</string>
+    <string name="text_view_new_climb_title">New Climb</string>
+    <string name="text_view_grade">Select Grade Style</string>
+
+    <!--editTexts-->
+    <string name="edit_hint_climb_name">Enter Climb Name</string>
+    <string name="edit_hint_location">Enter Location</string>
+    <string name="edit_hint_grade">Enter Grade Here</string>
+    <string name="edit_hint_comments">Enter Comments Here</string>
+
+    <!--Spinners-->
+    <string name="spinner_hint_style">Select Style</string>
+    <string name="spinner_hint_grade">Select Grading System</string>
 
 
+    <!--Arrays-->
+    <!--Spinners-->
+    <string-array name="spinner_grade">
+        <item>UK Bouldering</item>
+        <item>French</item>
+        <item>British Trad A/T</item>
+        <item>other</item>
+    </string-array>
+    <string-array name="spinner_style">
+        <item>Boulder - Indoor</item>
+        <item>Boulder - Outdoors</item>
+        <item>Sport - Indoor</item>
+        <item>Sport - Outdoor</item>
+        <item>Trad</item>
+        <item>Other</item>
+    </string-array>
+
+    <!--Nav Menus-->
     <string-array name="navMenu">
         <item>Climbing Log</item>
         <item>Dictionary</item>
         <item>Gear Log</item>
     </string-array>
-
-
 </resources>
