@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
@@ -226,6 +227,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void updateClimbLogEntry(ClimbingLogbook log) {
 
+    }
+
+    public void deleteAllClimbLogEntries() {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.execSQL("DELETE FROM " + TABLE_CLIMBING_LOGBOOK);
+        db.close();
     }
 
     public void deleteCimbLogEntry(long entry_id) {

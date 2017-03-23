@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">DissertationApp</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Misc-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!--Delete Dialog-->
+    <string name="title_are_you_sure">Are You Sure?</string>
+    <string name="message_delete">This will remove all log entries from the app, and cannot be undone.</string>
+
+
     <!--Buttons-->
-    <string name="button_dictionary">Climbing Dictionary</string>
+    <string name="button_about">About</string>
     <string name="button_log">Equipment Log</string>
     <string name="button_new_entry">New Entry</string>
     <string name="button_date">Enter Date</string>
@@ -48,9 +56,13 @@
     </string-array>
 
     <!--Nav Menus-->
+
+    <string name="arrayItem_climbing_log">Climbing Log</string>
+    <string name="arrayItem_dictionary">Dictionary</string>
+    <string name="arrayItem_gear_log">Gear Log</string>
     <string-array name="navMenu">
-        <item>Climbing Log</item>
-        <item>Dictionary</item>
-        <item>Gear Log</item>
+        <item>@string/arrayItem_climbing_log</item>
+        <item>@string/arrayItem_dictionary</item>
+        <item>@string/arrayItem_gear_log</item>
     </string-array>
 </resources>

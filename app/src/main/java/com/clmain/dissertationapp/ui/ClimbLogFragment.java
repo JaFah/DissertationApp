@@ -1,10 +1,12 @@
 package com.clmain.dissertationapp.ui;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -65,8 +67,6 @@ public class ClimbLogFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        LinearLayout layout = (LinearLayout)getView().findViewById(R.id.layout_log);
-        layout.removeAllViews();
         loadEntries();
 
     }
@@ -97,6 +97,9 @@ public class ClimbLogFragment extends Fragment {
                 ft.replace(R.id.main_content, fragment, "new log");
                 ft.addToBackStack(null).commit();
                 return true;
+            case R.id.button_delete:
+                showDeleteDialog();
+                return true;
 
             default:
                 //input unrecognised
@@ -107,6 +110,9 @@ public class ClimbLogFragment extends Fragment {
     }
 
     private void loadEntries() {
+        LinearLayout baselayout = (LinearLayout)getView().findViewById(R.id.layout_log);
+        baselayout.removeAllViews();
+
         try {
             DatabaseHelper dbh = new DatabaseHelper(getContext());
             List<ClimbingLogbook> logs= dbh.readAllClimbLogEntries();
@@ -198,6 +204,29 @@ public class ClimbLogFragment extends Fragment {
         }catch(Exception e) {
             System.out.println("Error (Database Empty?) : " + e);
         }
+    }
+
+    private void showDeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.title_are_you_sure);
+        builder.setMessage(R.string.message_delete);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new DatabaseHelper(getContext()).deleteAllClimbLogEntries();
+                loadEntries();
+                dialog.dismiss();
+            }
+        });
+          builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                  dialog.dismiss();
+              }
+          });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

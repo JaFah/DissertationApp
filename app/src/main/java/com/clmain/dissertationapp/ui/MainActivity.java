@@ -45,6 +45,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        //Set default window
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().replace(R.id.main_content, new ClimbLogFragment()).commit();
+
+        navListView.setItemChecked(0, true);
+        setTitle(R.string.arrayItem_climbing_log);
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
@@ -54,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case  R.id.dictionary_button :
+            case  R.id.about_button :
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -102,14 +115,11 @@ public class MainActivity extends AppCompatActivity {
                     //Climbing Log
                     System.out.println("Loading Climb Log");
                     frag = new ClimbLogFragment();
-
-
                     break;
                 case 1:
                     //Dictionary
                     System.out.println("Loading Dictionary");
                     frag = new DictionaryFragment();
-
                     break;
                 case 2:
                     //Gear Log
