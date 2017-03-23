@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
 
-    private static final int DATABASE_VERSION=2;
+    private static final int DATABASE_VERSION=3;
 
     private static final String DATABASE_NAME = "climbingApp";
 
@@ -82,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase bd, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DICTIONARY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DICTIONARY_TAGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLIMBING_LOGBOOK);
@@ -182,8 +182,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        //TODO - Date
-        // values.put(COLUMN_DATE, log.getDate());
+        System.out.println("CreateEntry Date: " + log.getDate());
+        values.put(COLUMN_DATE, log.getDate());
         values.put(COLUMN_NAME, log.getName());
         values.put(COLUMN_LOCATION, log.getLocation());
         values.put(COLUMN_STYLE, log.getStyle());
@@ -208,7 +208,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()) {
             do {
                 ClimbingLogbook log = new ClimbingLogbook();
-                //log.setDate();
+                log.setDate(c.getString(c.getColumnIndex(COLUMN_DATE)));
+                log.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
                 log.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
                 log.setLocation(c.getString(c.getColumnIndex(COLUMN_LOCATION)));
                 log.setStyle(c.getString(c.getColumnIndex(COLUMN_STYLE)));

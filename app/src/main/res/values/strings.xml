@@ -9,12 +9,14 @@
     <string name="button_new_entry">New Entry</string>
     <string name="button_date">Enter Date</string>
     <string name="button_submit">Submit</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_delete">delete</string>
 
     <!--Buttons-->
     <string name="text_view_beta">Beta</string>
     <string name="text_view_new_climb_title">New Climb</string>
-    <string name="text_view_grade">Select Grade Style</string>
-    <string name="text_view_style">Select Climbing Style</string>
+    <string name="text_view_grade">Grading</string>
+    <string name="text_view_style">Climbing Style</string>
 
 
     <!--editTexts-->

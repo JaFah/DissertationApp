@@ -22,12 +22,14 @@ import com.clmain.dissertationapp.R;
 import com.clmain.dissertationapp.db.ClimbingLogbook;
 import com.clmain.dissertationapp.db.DatabaseHelper;
 
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewClimbFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class NewClimbFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener, DatePickerFragment.DatePickerFragmentListener {
 
     public NewClimbFragment() {
         // Required empty public constructor
@@ -65,27 +67,43 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
         Button date = (Button)getView().findViewById(R.id.button_date);
         date.setOnClickListener(this);
     }
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     //Listeners
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.button_date:
-                DialogFragment fragment = new DatePickerFragment();
+                DatePickerFragment fragment = new DatePickerFragment().newInstance(this);
                 fragment.show(getFragmentManager(), "datePicker");
                 break;
             case R.id.button_enter:
                 EditText text;
-                //String date;
+                String date;
                 String name;
                 String location;
                 String style;
                 String grade;
                 String comments;
 
-                //TODO Date
+
                 text = (EditText) getView().findViewById(R.id.edit_climb_name);
                 name = text.getText().toString();
+
+                Button button = (Button)getView().findViewById((R.id.button_date));
+                if(button.getText().toString().equals("Enter Date")) {
+                    date="";
+                }else {
+                    date=button.getText().toString();
+                }
+                System.out.println("Date PreDB: " + date);
 
                 text = (EditText)getView().findViewById(R.id.edit_location);
                 location = text.getText().toString();
@@ -102,6 +120,7 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
                 ClimbingLogbook log = new ClimbingLogbook();
                 log.setName(name);
                 log.setLocation(location);
+                log.setDate(date);
                 log.setStyle(style);
                 log.setGrade(grade);
                 log.setComments(comments);
@@ -109,46 +128,52 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
                 DatabaseHelper dbHelp = new DatabaseHelper(getContext());
 
                 dbHelp.createClimbLogEntry(log);
-                //TODO Back to browse
+
+                getFragmentManager().popBackStack();
                 break;
             default:
                 break;
         }
     }
 
+    @Override
+    public void onDateSet(Date date) {
+        System.out.println("Date: " + DateFormat.getDateInstance(DateFormat.SHORT).format(date));
+        Button b = (Button)getView().findViewById(R.id.button_date);
+        b.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(date));
+
+    }
+
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        System.out.println("Pos=" + pos +". Spinner: " + parent.getId());
+        //System.out.println("Pos=" + pos +". Spinner: " + parent.getId());
+        if(parent.getId()==R.id.spinner_style) {
+            Spinner gradeSpin = (Spinner)getView().findViewById(R.id.spinner_grade);
+            switch(parent.getSelectedItem().toString()) {
+                case "Boulder - Indoor":
+                    gradeSpin.setSelection(0);
+                    break;
+                case "Boulder - Outdoors":
+                    gradeSpin.setSelection(0);
+                    break;
+                case "Sport - Indoor":
+                    gradeSpin.setSelection(1);
+                    break;
+                case "Sport - Outdoor":
+                    gradeSpin.setSelection(1);
+                    break;
+                case "Trad":
+                    gradeSpin.setSelection(2);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
-
-    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public  Dialog onCreateDialog(Bundle savedinstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            //Create a new instance of DatePickerDialog and return
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            System.out.println("Date: " + day + "/" + month + "/" + year);
-//            String date=day + "/" + month + "/" + year;
-//            Button enter = (Button)getParentFragment().getView().findViewById(R.id.button_date);
-//            enter.setText(date);
-        }
-
-
-    }
 }
 
 

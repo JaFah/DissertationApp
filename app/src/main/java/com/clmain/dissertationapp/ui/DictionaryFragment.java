@@ -28,12 +28,6 @@ public class DictionaryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * @return A new instance of fragment DictionaryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static DictionaryFragment newInstance() {
         DictionaryFragment fragment = new DictionaryFragment();
         return fragment;
