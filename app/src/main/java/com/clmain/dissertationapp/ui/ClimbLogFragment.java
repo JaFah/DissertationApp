@@ -72,7 +72,7 @@ public class ClimbLogFragment extends Fragment {
     public void onStart() {
         List<RelativeLayout> logEntries = getListItems();
         //TODO add listView
-        ListView listView = (ListView)getView().findViewById();
+        //ListView listView = (ListView)getView().findViewById();
 
         super.onStart();
     }
