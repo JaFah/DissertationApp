@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.clmain.dissertationapp.R;
 import com.clmain.dissertationapp.db.ClimbingLogbook;
@@ -130,6 +131,7 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
                 dbHelp.createClimbLogEntry(log);
 
                 getFragmentManager().popBackStack();
+                Toast.makeText(getContext(), "Climb Added!", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

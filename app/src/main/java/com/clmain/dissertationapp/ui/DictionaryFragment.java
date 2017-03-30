@@ -40,45 +40,45 @@ public class DictionaryFragment extends Fragment {
     }
 
     private void displayDictionary() {
-        DatabaseHelper db = new DatabaseHelper(super.getContext());
-        List<Dictionary> entries = db.readAllDictionaryEntries();
-
-        FrameLayout layout = (FrameLayout)getView().findViewById(R.id.dictionary_content);
-        for(int i=0; i<entries.size(); i++) {
-            TextView title = new TextView(super.getContext());
-
-            System.out.println("Title: " + entries.get(i).getTitle() + ". Array Length: " + entries.size());
-
-            title.setText(entries.get(i).getTitle());
-            title.setId(i);
-            String tag = "title" + i;
-            title.setTag(tag);
-
-            if(i!=0) {
-                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)title.getLayoutParams();
-                //lp.addRule(RelativeLayout.BELOW,(TextView)findViewWithTag("description"+(i-1)));
-            }
-            layout.addView(title);
-
-            TextView description = new TextView(super.getContext());
-            description.setText(entries.get(i).getDescription());
-            RelativeLayout.LayoutParams lpd = (RelativeLayout.LayoutParams)description.getLayoutParams();
-            //lpd.addRule(RelativeLayout.BELOW, (TextView)getView().findViewWithTag("title"+i).getId());
-            layout.addView(description);
-
-
-            switch(entries.get(i).getTitle()) {
-                case "Crimp":
-                    ImageView img = new ImageView(super.getContext());
-                    img.setImageResource(R.mipmap.image_crimp);
-                    layout.addView(img);
-                    break;
-                case "Beta":
-                    break;
-                default:
-                    break;
-            }
-        }
+//        DatabaseHelper db = new DatabaseHelper(super.getContext());
+//        List<Dictionary> entries = db.readAllDictionaryEntries();
+//
+//        FrameLayout layout = (FrameLayout)getView().findViewById(R.id.dictionary_content);
+//        for(int i=0; i<entries.size(); i++) {
+//            TextView title = new TextView(super.getContext());
+//
+//            System.out.println("Title: " + entries.get(i).getTitle() + ". Array Length: " + entries.size());
+//
+//            title.setText(entries.get(i).getTitle());
+//            title.setId(i);
+//            String tag = "title" + i;
+//            title.setTag(tag);
+//
+//            if(i!=0) {
+//                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)title.getLayoutParams();
+//                //lp.addRule(RelativeLayout.BELOW,(TextView)findViewWithTag("description"+(i-1)));
+//            }
+//            layout.addView(title);
+//
+//            TextView description = new TextView(super.getContext());
+//            description.setText(entries.get(i).getDescription());
+//            RelativeLayout.LayoutParams lpd = (RelativeLayout.LayoutParams)description.getLayoutParams();
+//            //lpd.addRule(RelativeLayout.BELOW, (TextView)getView().findViewWithTag("title"+i).getId());
+//            layout.addView(description);
+//
+//
+//            switch(entries.get(i).getTitle()) {
+//                case "Crimp":
+//                    ImageView img = new ImageView(super.getContext());
+//                    img.setImageResource(R.mipmap.image_crimp);
+//                    layout.addView(img);
+//                    break;
+//                case "Beta":
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
     }
 
     @Override

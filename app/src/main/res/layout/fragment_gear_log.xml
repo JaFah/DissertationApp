@@ -1,16 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.clmain.dissertationapp.ui.GearLogFragment"
-    android:background="@color/colorPrimary"
     >
-
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="?attr/actionBarSize"
-        android:text="GEAR LOG" />
-
-</FrameLayout>
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        android:text="Work In Progress"
+        android:layout_marginBottom="10dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This Page will allow the user to make a note of the state of their gear, such as make &amp; model, limitations, date of purchase and manufactures recommended replacement period"/>
+</LinearLayout>

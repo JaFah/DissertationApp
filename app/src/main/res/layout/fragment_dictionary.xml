@@ -1,14 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
+    android:orientation="vertical"
     tools:context="com.clmain.dissertationapp.ui.DictionaryFragment">
-
-    <FrameLayout
-        android:id="@+id/dictionary_content"
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textStyle="bold"
+    android:textSize="24dp"
+    android:text="Work In Progress"
+    android:layout_marginBottom="10dp" />
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </FrameLayout>
-</FrameLayout>
+        android:layout_height="wrap_content"
+        android:text="This page will provide a guide of some of the terminology often found within climbing"/>
+</LinearLayout>

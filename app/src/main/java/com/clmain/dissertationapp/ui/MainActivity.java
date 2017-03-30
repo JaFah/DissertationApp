@@ -3,6 +3,7 @@ package com.clmain.dissertationapp.ui;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,40 +14,43 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.clmain.dissertationapp.R;
 import com.clmain.dissertationapp.db.Dictionary;
 import com.clmain.dissertationapp.db.DatabaseHelper;
 import com.clmain.dissertationapp.db.DictionaryTags;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private String[] navMenuTitles;
     private DrawerLayout navDrawerLayout;
     private ListView navListView;
+    private ActionBarDrawerToggle navDrawerToggle;
+
     MenuInflater inflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
+        //String to hold names for List Items
         navMenuTitles = getResources().getStringArray(R.array.navMenu);
         navDrawerLayout = (DrawerLayout)findViewById(R.id.activity_main);
+
         navListView = (ListView)findViewById(R.id.left_drawer);
 
         navListView.setAdapter(new ArrayAdapter<String>(this,R.layout.list_nav_drawer, navMenuTitles));
         navListView.setOnItemClickListener(new DrawerItemClickListener());
 
         //debug_populateDb();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
         //Set default window
         FragmentManager fm = getFragmentManager();
@@ -54,8 +58,15 @@ public class MainActivity extends AppCompatActivity {
 
         navListView.setItemChecked(0, true);
         setTitle(R.string.arrayItem_climbing_log);
+
+
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case  R.id.about_button :
+                //TODO Implement 'About'
+                Toast.makeText(this, "'About' is not implemented yet", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -94,9 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Created by user on 12/03/2017.
-     */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
