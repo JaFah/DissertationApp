@@ -3,32 +3,26 @@ package com.clmain.dissertationapp.ui;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ListActivity;
-import android.app.LoaderManager;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.clmain.dissertationapp.ui.customelements.ClimbLogAdapter;
 import com.clmain.dissertationapp.R;
 import com.clmain.dissertationapp.db.ClimbingLogbook;
 import com.clmain.dissertationapp.db.DatabaseHelper;
@@ -41,7 +35,16 @@ import java.util.List;
  * Use the {@link ClimbLogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ClimbLogFragment extends Fragment {
+public class ClimbLogFragment extends Fragment  {
+
+    ListView listView;
+    String[] dates;
+    String[] names;
+    String[] locations;
+    String[] styles;
+    String[] grades;
+    String[] comments;
+
 
     public ClimbLogFragment() {
         // Required empty public constructor
@@ -57,8 +60,7 @@ public class ClimbLogFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
+            }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,16 +72,51 @@ public class ClimbLogFragment extends Fragment {
 
     @Override
     public void onStart() {
-        List<RelativeLayout> logEntries = getListItems();
-        //TODO add listView
-        //ListView listView = (ListView)getView().findViewById();
+        listView = (ListView)getView().findViewById(R.id.layout_list_climb_log);
+        getEntries();
 
+        final ClimbLogAdapter adapter = new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments);
+        listView.setAdapter(adapter);
+        listView.deferNotifyDataSetChanged();
+//        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+//            @Override
+//            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+//                final int checkdCount = listView.getCheckedItemCount();
+//                final long[] ids = listView.getCheckedItemIds();
+//
+//                mode.setTitle("Selection");
+//
+//            }
+//
+//            @Override
+//            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onDestroyActionMode(ActionMode mode) {
+//
+//            }
+//        });
         super.onStart();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        //getEntries();
+
+        listView.deferNotifyDataSetChanged();
     }
 
     @Override
@@ -96,6 +133,9 @@ public class ClimbLogFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.new_log_entry_button:
                 Fragment fragment = new NewClimbFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("climbID", -1);
+                fragment.setArguments(bundle);
                 FragmentManager fm = getFragmentManager();
 
                 FragmentTransaction ft = fm.beginTransaction();
@@ -105,10 +145,6 @@ public class ClimbLogFragment extends Fragment {
                 return true;
             case R.id.button_delete:
                 showDeleteDialog();
-                return true;
-
-            case R.id.button_edit:
-                Toast.makeText(getContext(), "Edit is not yet implemented", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 //input unrecognised
@@ -186,11 +222,11 @@ public class ClimbLogFragment extends Fragment {
                     }
                 });
 
-            System.out.println("Name  : " +logs.get(i).getName() );
-            System.out.println("Date  : " +logs.get(i).getDate() );
-            System.out.println("Style : " +logs.get(i).getStyle() );
-            System.out.println("Grade :" +logs.get(i).getGrade() );
-            System.out.println("Com   :" +logs.get(i).getComments() );
+//            System.out.println("Name  : " +logs.get(i).getName() );
+//            System.out.println("Date  : " +logs.get(i).getDate() );
+//            System.out.println("Style : " +logs.get(i).getStyle() );
+//            System.out.println("Grade :" +logs.get(i).getGrade() );
+//            System.out.println("Com   :" +logs.get(i).getComments() );
 
             //Set Text of Boxes
             if(logs.get(i).getDate().equals("")){
@@ -200,7 +236,7 @@ public class ClimbLogFragment extends Fragment {
             }
 
             if(logs.get(i).getName().equals("")) {
-                name.setText("Untitled Climb");
+
             }else {
                 name.setText(logs.get(i).getName());
             }
@@ -252,7 +288,7 @@ public class ClimbLogFragment extends Fragment {
             entryLayout.addView(style, styleParams);
             entryLayout.addView(grade, gradeParams);
             entryLayout.addView(comments, commentsParams);
-            LinearLayout baseLayout = (LinearLayout)getView().findViewById(R.id.layout_log);
+            //LinearLayout baseLayout = (LinearLayout)getView().findViewById(R.id.layout_log);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(5,5,5,5);
 
@@ -261,4 +297,25 @@ public class ClimbLogFragment extends Fragment {
         }
     return entryLayouts;
     }
+
+    private void getEntries() {
+        DatabaseHelper dbh = new DatabaseHelper(getContext());
+        List<ClimbingLogbook> logs= dbh.readAllClimbLogEntries();
+        names = new String[logs.size()];
+        dates = new String[logs.size()];
+        locations = new String[logs.size()];
+        styles = new String[logs.size()];
+        grades = new String[logs.size()];
+        comments = new String[logs.size()];
+
+        for(int i=0; i<logs.size(); i++) {
+            dates[i]=logs.get(i).getDate();
+            names[i]=logs.get(i).getName();
+            locations[i]=logs.get(i).getLocation();
+            styles[i]=logs.get(i).getStyle();
+            grades[i]=logs.get(i).getGrade();
+            comments[i]=logs.get(i).getComments();
+        }
+    }
+
 }

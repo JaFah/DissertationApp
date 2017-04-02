@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,19 +184,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        System.out.println("CreateEntry Date: " + log.getDate());
         values.put(COLUMN_DATE, log.getDate());
         values.put(COLUMN_NAME, log.getName());
         values.put(COLUMN_LOCATION, log.getLocation());
         values.put(COLUMN_STYLE, log.getStyle());
         values.put(COLUMN_GRADE, log.getGrade());
         values.put(COLUMN_COMMENTS, log.getComments());
-        long row_id = db.insert(TABLE_CLIMBING_LOGBOOK, null, values);
+        db.insert(TABLE_CLIMBING_LOGBOOK, null, values);
         closeDB();
     }
 
     public ClimbingLogbook readClimbLogEntry(long entry_id) {
-        return new ClimbingLogbook();
+        String query = "SELECT * FROM " + TABLE_CLIMBING_LOGBOOK + " WHERE " + COLUMN_ID_CLIMB_LOG + " = " + (entry_id);
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor c = db.rawQuery(query, null);
+        ClimbingLogbook log = new ClimbingLogbook();
+
+        if(c!=null) {
+            c.moveToFirst();
+        }
+            log.setDate(c.getString(c.getColumnIndex(COLUMN_DATE)));
+            log.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
+            log.setLocation(c.getString(c.getColumnIndex(COLUMN_LOCATION)));
+            log.setStyle(c.getString(c.getColumnIndex(COLUMN_STYLE)));
+            log.setGrade(c.getString(c.getColumnIndex(COLUMN_GRADE)));
+            log.setComments(c.getString(c.getColumnIndex(COLUMN_COMMENTS)));
+
+        db.close();
+
+        return log;
     }
 
     public List<ClimbingLogbook> readAllClimbLogEntries() {
@@ -226,7 +245,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void updateClimbLogEntry(ClimbingLogbook log) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
 
+        values.put(COLUMN_DATE, log.getDate());
+        values.put(COLUMN_NAME, log.getName());
+        values.put(COLUMN_LOCATION, log.getLocation());
+        values.put(COLUMN_STYLE, log.getStyle());
+        values.put(COLUMN_GRADE, log.getGrade());
+        values.put(COLUMN_COMMENTS, log.getComments());
+
+        String id_row = COLUMN_ID_CLIMB_LOG+"=" + log.getID();
+        db.update(TABLE_CLIMBING_LOGBOOK, values, id_row, null);
+        closeDB();
     }
 
     public void deleteAllClimbLogEntries() {

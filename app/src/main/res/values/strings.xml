@@ -8,6 +8,12 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
+    <!--Database Default row entrie-->
+    <string name="db_no_date">No Date</string>
+    <string name="db_no_name">Untitled Climb</string>
+    <string name="db_no_location">Location not Specified</string>
+    <string name="db_no_grade">Ungraded Climb</string>
+
     <!--Delete Dialog-->
     <string name="title_are_you_sure">Are You Sure?</string>
     <string name="message_delete">This will remove all log entries from the app, and cannot be undone.</string>
@@ -20,11 +26,14 @@
     <string name="button_date">Enter Date</string>
     <string name="button_submit">Submit</string>
     <string name="button_edit">Edit</string>
-    <string name="button_delete">delete</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_update">Update</string>
+
 
     <!--Buttons-->
     <string name="text_view_beta">Beta</string>
     <string name="text_view_new_climb_title">New Climb</string>
+    <string name="text_view_edit_climb_title">Edit Climb</string>
     <string name="text_view_grade">Grading</string>
     <string name="text_view_style">Climbing Style</string>
 
@@ -40,17 +49,19 @@
     <string name="spinner_hint_grade">Select Grading System</string>
 
 
+
+
     <!--Arrays-->
     <!--Spinners-->
     <string-array name="spinner_grade">
         <item>UK Bouldering</item>
         <item>French</item>
         <item>British Trad A/T</item>
-        <item>other</item>
+        <item>Other</item>
     </string-array>
     <string-array name="spinner_style">
         <item>Boulder - Indoor</item>
-        <item>Boulder - Outdoors</item>
+        <item>Boulder - Outdoor</item>
         <item>Sport - Indoor</item>
         <item>Sport - Outdoor</item>
         <item>Trad</item>
