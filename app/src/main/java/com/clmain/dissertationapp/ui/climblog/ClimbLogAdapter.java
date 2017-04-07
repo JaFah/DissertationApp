@@ -1,4 +1,4 @@
-package com.clmain.dissertationapp.ui.customelements;
+package com.clmain.dissertationapp.ui.climblog;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -6,23 +6,24 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.clmain.dissertationapp.R;
-import com.clmain.dissertationapp.ui.NewClimbFragment;
+import com.clmain.dissertationapp.db.ClimbingLogbook;
+
+import java.util.List;
 
 /**
  * Created by user on 01/04/2017.
  */
 
 public class ClimbLogAdapter extends ArrayAdapter<String> {
-
     String[] date;
     String[] name;
     String[] location;
@@ -31,6 +32,7 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
     String[] comments;
     Context context;
     LayoutInflater inflater;
+    public int idCount = 0;
 
     public ClimbLogAdapter(Context context, int resource, String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments) {
         super(context, resource);
@@ -73,13 +75,16 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
         holder.style.setText(style[position]);
         holder.grade.setText(grade[position]);
         holder.comments.setText(comments[position]);
-        //Placeholder identify selection by position - potential issue if searching is implemented
+
+
+        //holder.editButton.setId(idCount);
+        //idCount=idCount+1;
+        //Placeholder- - identifying selection by position may casue issue if searching is implemented
         //as posts will no longer be in order by ID
 
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Click! " + position, Toast.LENGTH_SHORT).show();
                 Fragment fragment = new NewClimbFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("climbID", (position+1));
@@ -96,6 +101,18 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
         });
 
         return convertView;
+    }
+
+    public void swapItems(String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments) {
+        for(int i=0;i<date.length;i++) {
+            this.date=date;
+            this.name=name;
+            this.location=location;
+            this.style=style;
+            this.grade=grade;
+            this.comments=comments;
+            notifyDataSetChanged();
+        }
     }
 
     public class ViewHolder {

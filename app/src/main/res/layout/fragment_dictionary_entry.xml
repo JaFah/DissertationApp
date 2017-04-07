@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.clmain.dissertationapp.ui.dictionary.DictionaryEntryFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/dictionary_entry_title"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        />
+    <ImageView
+        android:id="@+id/dictionary_entry_image"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:padding="16dp"
+        android:layout_alignLeft="@id/dictionary_entry_title"
+        android:layout_alignRight="@id/dictionary_entry_title"
+        android:layout_below="@id/dictionary_entry_title"
+        />
+
+    <TextView
+        android:id="@+id/dictionary_entry_definition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="18dp"
+        android:textSize="16dp"
+        android:text="@string/hello_blank_fragment"
+        android:layout_below="@+id/dictionary_entry_title"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="225dp" />
+
+
+</RelativeLayout>

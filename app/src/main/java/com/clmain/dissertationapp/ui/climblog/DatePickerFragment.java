@@ -1,4 +1,4 @@
-package com.clmain.dissertationapp.ui;
+package com.clmain.dissertationapp.ui.climblog;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

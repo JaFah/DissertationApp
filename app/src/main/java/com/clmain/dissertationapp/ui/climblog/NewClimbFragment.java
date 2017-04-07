@@ -1,11 +1,5 @@
-package com.clmain.dissertationapp.ui;
+package com.clmain.dissertationapp.ui.climblog;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,11 +16,9 @@ import android.widget.Toast;
 import com.clmain.dissertationapp.R;
 import com.clmain.dissertationapp.db.ClimbingLogbook;
 import com.clmain.dissertationapp.db.DatabaseHelper;
-
-import org.w3c.dom.Text;
+import com.clmain.dissertationapp.ui.climblog.DatePickerFragment;
 
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -60,6 +51,7 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
         View view = inflater.inflate(R.layout.fragment_new_climb, container, false);
         return view;
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 

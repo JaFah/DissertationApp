@@ -1,20 +1,23 @@
-package com.clmain.dissertationapp.ui;
+package com.clmain.dissertationapp.ui.dictionary;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TabHost;
+import android.widget.TabWidget;
+import android.widget.Toast;
 
 import com.clmain.dissertationapp.R;
-import com.clmain.dissertationapp.db.Dictionary;
-import com.clmain.dissertationapp.db.DatabaseHelper;
 
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +26,10 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class DictionaryFragment extends Fragment {
+    int tab;
+    TabHost tabs;
 
+    TabHost tabHost;
     public DictionaryFragment() {
         // Required empty public constructor
     }
@@ -36,6 +42,35 @@ public class DictionaryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        tabHost=(TabHost)getView().findViewById(R.id.tab_host_dictionary);
+        tabHost.setup();
+
+        TabHost.TabSpec spec = tabHost.newTabSpec("Tab One");
+        spec.setContent(R.id.All);
+        spec.setIndicator("All");
+        tabHost.addTab(spec);
+
+        spec = tabHost.newTabSpec("Tab Two");
+        spec.setContent(R.id.Techniques);
+        spec.setIndicator("Techniques");
+        tabHost.addTab(spec);
+
+        spec = tabHost.newTabSpec("Tab Three");
+        spec.setContent(R.id.Equipment);
+        spec.setIndicator("Equipment");
+        tabHost.addTab(spec);
+
+        spec = tabHost.newTabSpec("Tab Four");
+        spec.setContent(R.id.Jargon);
+        spec.setIndicator("Jargon");
+
+        tabHost.addTab(spec);
+
+
 
     }
 
@@ -90,11 +125,47 @@ public class DictionaryFragment extends Fragment {
 
     @Override
     public void onStart() {
-        super.onStart();
         displayDictionary();
+
+        ListView list = (ListView)getView().findViewById(R.id.list_tab_techniques);
+        //DictionaryAdapter adapter = new DictionaryAdapter(getContext(), R.layout.list_dictionary_entry, dictionary);
+
+        list.setAdapter(new DictionaryAdapter(getContext(),R.layout.list_dictionary_entry, getResources().getStringArray(R.array.dictionary_title_techniques)));
+        list.setClickable(true);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DictionaryEntryFragment fragment = new DictionaryEntryFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("title", getResources().getStringArray(R.array.dictionary_title_techniques)[position]);
+                bundle.putInt("pos", position);
+                fragment.setArguments(bundle);
+
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+
+                ft.replace(R.id.main_content, fragment, "dictioanry entry");
+                ft.addToBackStack(null).commit();
+            }
+        });
+        super.onStart();
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        tabs = (TabHost)getView().findViewById(R.id.tab_host_dictionary);
+        tab =tabs.getCurrentTab();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        tabs = (TabHost)getView().findViewById(R.id.tab_host_dictionary);
+        tabs.setCurrentTab(tab);
+    }
 
 }
+

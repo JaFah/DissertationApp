@@ -20,8 +20,8 @@ import com.clmain.dissertationapp.R;
 import com.clmain.dissertationapp.db.Dictionary;
 import com.clmain.dissertationapp.db.DatabaseHelper;
 import com.clmain.dissertationapp.db.DictionaryTags;
-
-import java.util.List;
+import com.clmain.dissertationapp.ui.dictionary.DictionaryFragment;
+import com.clmain.dissertationapp.ui.climblog.ClimbLogFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void selectItem(int position, View view) {
-            System.out.println("Button Pressed, pos="+position);
 
             Fragment frag;
             FragmentManager fragmentManager;
@@ -123,28 +122,23 @@ public class MainActivity extends AppCompatActivity {
             switch(position) {
                 case 0:
                     //Climbing Log
-                    System.out.println("Loading Climb Log");
                     frag = new ClimbLogFragment();
                     break;
                 case 1:
                     //Dictionary
-                    System.out.println("Loading Dictionary");
                     frag = new DictionaryFragment();
                     break;
                 case 2:
                     //Gear Log
-                    System.out.println("Loading Gear Log");
                     frag = new GearLogFragment();
                     break;
+                case 3:
+                    //Guide
                 default:
                     //broken
                     frag = new Fragment();
-                    System.out.println("Nav Drawer selection out of bounds");
                     break;
             }
-            //Bundle args = new Bundle();
-            //args.putInt(DictionaryFragment.ARGUMENT, POSITION);
-            //frag.setArguments(args);
             fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.main_content, frag).commit();
 

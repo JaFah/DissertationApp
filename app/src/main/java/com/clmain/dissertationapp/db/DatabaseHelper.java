@@ -268,7 +268,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteCimbLogEntry(long entry_id) {
-
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_CLIMBING_LOGBOOK + " WHERE " + COLUMN_ID_CLIMB_LOG + " = " + (entry_id+1);
+        System.out.println("Query: " + query);
+        db.execSQL(query);
+        db.close();
     }
 
 }
