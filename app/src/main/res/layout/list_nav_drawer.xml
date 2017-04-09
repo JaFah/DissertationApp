@@ -5,9 +5,8 @@
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:gravity="center_vertical"
-    android:textColor="#fff"
     android:textAppearance="?android:attr/textAppearanceListItem"
-    android:background="?android:attr/activatedBackgroundIndicator"
+    android:background="@drawable/list_item_selected"
     />
 
 

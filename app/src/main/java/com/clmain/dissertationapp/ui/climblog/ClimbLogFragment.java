@@ -1,12 +1,15 @@
 package com.clmain.dissertationapp.ui.climblog;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
 import android.view.ActionMode;
@@ -22,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +52,7 @@ public class ClimbLogFragment extends Fragment  {
     String[] styles;
     String[] grades;
     String[] comments;
+    android.support.v7.widget.Toolbar tool;
 
 
     public ClimbLogFragment() {
@@ -83,6 +88,8 @@ public class ClimbLogFragment extends Fragment  {
 
     @Override
     public void onStart() {
+        tool = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.main_toolbar);
+        tool.setTitle(R.string.array_item_climbing_log);
         listView = (ListView)getView().findViewById(R.id.layout_list_climb_log);
         getEntries();
         final ClimbLogAdapter adapter =new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments);
@@ -97,6 +104,24 @@ public class ClimbLogFragment extends Fragment  {
                 selected[i] = false;
             }
 
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Fragment fragment = new NewClimbFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("climbID", (position+1));
+                    fragment.setArguments(bundle);
+                    final Context context = parent.getContext();
+                    FragmentManager fm = ((Activity) context).getFragmentManager();
+
+                    FragmentTransaction ft = fm.beginTransaction();
+                    //TODO Animate Transition
+                    ft.replace(R.id.main_content, fragment, "new log");
+                    ft.addToBackStack(null).commit();
+
+                }
+            });
+
             listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
 
                 @Override
@@ -107,12 +132,16 @@ public class ClimbLogFragment extends Fragment  {
 
                 @Override
                 public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                    android.support.v7.widget.Toolbar tool = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.main_toolbar);
                     tool.setVisibility(View.GONE);
+                    // Todo mode.
                     for (int i = 0; i < listView.getCount(); i++) {
-                        //Disable buttons
+                        long layout = adapter.getItemId(0);
+
                     }
+                    listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries,dates, names, locations, styles, grades, comments));
+
                     mode.setTitle(R.string.delete);
+
                     MenuInflater inflater = getActivity().getMenuInflater();
                     inflater.inflate(R.menu.delete_menu, menu);
                     return true;
@@ -128,7 +157,7 @@ public class ClimbLogFragment extends Fragment  {
                     if (item.getItemId() == R.id.button_delete) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle(R.string.title_are_you_sure);
-                        builder.setMessage(R.string.message_delete_all);
+                        builder.setMessage(R.string.message_delete_selection);
                         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -146,6 +175,7 @@ public class ClimbLogFragment extends Fragment  {
                                 ((ClimbLogAdapter) listView.getAdapter()).swapItems(dates, names, locations, styles, grades, comments);
                                 //listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments));
                                 dialog.dismiss();
+
                                 mode.finish();
 
                             }
@@ -165,13 +195,13 @@ public class ClimbLogFragment extends Fragment  {
 
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
-                    android.support.v7.widget.Toolbar tool = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.main_toolbar);
                     tool.setVisibility(View.VISIBLE);
                     getEntries();
                     listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments));
                 }
             });
         }
+
 
         super.onStart();
     }
@@ -181,6 +211,7 @@ public class ClimbLogFragment extends Fragment  {
         super.onResume();
         getEntries();
         ((ClimbLogAdapter)listView.getAdapter()).swapItems(dates, names, locations, styles, grades, comments);
+        tool.setTitle(R.string.array_item_climbing_log);
     }
 
     @Override
@@ -188,6 +219,24 @@ public class ClimbLogFragment extends Fragment  {
         //Adds menu to action bar
         menu.clear();
         inflater.inflate(R.menu.climb_log_menu, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        DrawerLayout drawerLayout = (DrawerLayout)getActivity().findViewById(R.id.main_drawer);
+        ListView drawerList = (ListView)getActivity().findViewById(R.id.left_drawer);
+
+
+        boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
+
+        if(menu.findItem(R.id.button_delete_all)!=null) {
+            //If one is null, other will be
+            menu.findItem(R.id.button_delete_all).setVisible(!drawerOpen);
+            menu.findItem(R.id.button_new_log_entry).setVisible(!drawerOpen);
+
+        }
+
 
     }
 
@@ -195,7 +244,7 @@ public class ClimbLogFragment extends Fragment  {
     public boolean onOptionsItemSelected(MenuItem item) {
         //Handles option selection from action bar
         switch (item.getItemId()) {
-            case R.id.new_log_entry_button:
+            case R.id.button_new_log_entry:
                 Fragment fragment = new NewClimbFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("climbID", -1);
@@ -238,8 +287,6 @@ public class ClimbLogFragment extends Fragment  {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 
     private void getEntries() {
         DatabaseHelper dbh = new DatabaseHelper(getContext());

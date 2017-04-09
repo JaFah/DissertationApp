@@ -3,8 +3,10 @@ package com.clmain.dissertationapp.ui.dictionary;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.clmain.dissertationapp.R;
@@ -28,6 +31,7 @@ import java.util.Arrays;
 public class DictionaryFragment extends Fragment {
     int tab;
     TabHost tabs;
+    android.support.v7.widget.Toolbar tool;
 
     TabHost tabHost;
     public DictionaryFragment() {
@@ -67,6 +71,11 @@ public class DictionaryFragment extends Fragment {
         spec = tabHost.newTabSpec("Tab Four");
         spec.setContent(R.id.Jargon);
         spec.setIndicator("Jargon");
+
+        TabWidget tabWidget = tabHost.getTabWidget();
+
+
+
 
         tabHost.addTab(spec);
 
@@ -126,7 +135,8 @@ public class DictionaryFragment extends Fragment {
     @Override
     public void onStart() {
         displayDictionary();
-
+        tool = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.main_toolbar);
+        tool.setTitle(R.string.array_item_climbing_log);
         ListView list = (ListView)getView().findViewById(R.id.list_tab_techniques);
         //DictionaryAdapter adapter = new DictionaryAdapter(getContext(), R.layout.list_dictionary_entry, dictionary);
 
@@ -165,6 +175,7 @@ public class DictionaryFragment extends Fragment {
         super.onResume();
         tabs = (TabHost)getView().findViewById(R.id.tab_host_dictionary);
         tabs.setCurrentTab(tab);
+        tool.setTitle(R.string.array_item_dictionary);
     }
 
 }

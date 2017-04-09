@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/new_log_entry_button"
+        android:id="@+id/button_new_log_entry"
         android:title="@string/button_new_entry"
         app:showAsAction="always"
         android:icon="@drawable/ic_add_black_24dp"

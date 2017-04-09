@@ -32,7 +32,7 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
     String[] comments;
     Context context;
     LayoutInflater inflater;
-    public int idCount = 0;
+    final ViewHolder holder = new ViewHolder();
 
     public ClimbLogAdapter(Context context, int resource, String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments) {
         super(context, resource);
@@ -58,15 +58,12 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
             convertView = inflater.inflate(R.layout.list_climb_log_entries, null);
         }
 
-        final ViewHolder holder = new ViewHolder();
-
         holder.date = (TextView)convertView.findViewById(R.id.list_entry_date);
         holder.name = (TextView)convertView.findViewById(R.id.list_entry_name);
         holder.location = (TextView)convertView.findViewById(R.id.list_entry_location);
         holder.style = (TextView)convertView.findViewById(R.id.list_entry_style);
         holder.grade = (TextView)convertView.findViewById(R.id.list_entry_grade);
         holder.comments = (TextView)convertView.findViewById(R.id.list_entry_comments);
-        holder.editButton = (Button)convertView.findViewById(R.id.list_entry_button_edit);
 
         //Bind data to views
         holder.date.setText(date[position]);
@@ -75,31 +72,6 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
         holder.style.setText(style[position]);
         holder.grade.setText(grade[position]);
         holder.comments.setText(comments[position]);
-
-
-        //holder.editButton.setId(idCount);
-        //idCount=idCount+1;
-        //Placeholder- - identifying selection by position may casue issue if searching is implemented
-        //as posts will no longer be in order by ID
-
-        holder.editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = new NewClimbFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("climbID", (position+1));
-                fragment.setArguments(bundle);
-                final Context context = parent.getContext();
-                FragmentManager fm = ((Activity) context).getFragmentManager();
-
-                FragmentTransaction ft = fm.beginTransaction();
-                //TODO Animate Transition
-                ft.replace(R.id.main_content, fragment, "new log");
-                ft.addToBackStack(null).commit();
-
-            }
-        });
-
         return convertView;
     }
 
@@ -124,4 +96,6 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
         TextView comments;
         Button editButton;
     }
+
+
 }

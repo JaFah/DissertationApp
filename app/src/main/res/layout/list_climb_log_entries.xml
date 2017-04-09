@@ -4,13 +4,16 @@
     android:id="@+id/list_entry_base_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/activatedBackgroundIndicator"
-    android:layout_margin="4dp">
+    android:background="@drawable/selector_list_climb_log"
+    android:layout_margin="4dp"
+    android:paddingBottom="4dp">
     <TextView
         android:id="@+id/list_entry_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="dd/mm/yyyy"
         android:textSize="16sp"
         android:textStyle="normal|italic" />
@@ -18,6 +21,8 @@
         android:id="@+id/list_entry_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="Title"
         android:layout_alignParentLeft="true"
         android:textStyle="normal|bold"
@@ -26,6 +31,8 @@
         android:id="@+id/list_entry_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="location"
         android:layout_below="@id/list_entry_name"
         android:textSize="18sp"
@@ -34,6 +41,8 @@
         android:id="@+id/list_entry_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="style"
         android:layout_below="@id/list_entry_location"
         android:textSize="18sp" />
@@ -41,27 +50,19 @@
         android:id="@+id/list_entry_grade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_toRightOf="@id/list_entry_style"
         android:layout_below="@id/list_entry_location"
         android:text="Grade"
-        android:layout_marginLeft="10dp"
         android:textSize="18sp" />
     <TextView
         android:id="@+id/list_entry_comments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="comments"
         android:layout_below="@id/list_entry_style"
         android:textSize="16sp" />
-    <Button
-        android:id="@+id/list_entry_button_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/list_entry_comments"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:text="Edit"
-        android:layout_alignParentRight="true"
-        />
-
 </RelativeLayout>

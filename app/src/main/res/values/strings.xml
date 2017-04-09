@@ -6,8 +6,13 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="delete">Delete</string>
+
+
+
+    <!--Navigation Drawer-->
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="drawer_title">Navigation Pane</string>
 
     <!--Database Default row entrie-->
     <string name="db_no_date">No Date</string>
@@ -18,6 +23,7 @@
     <!--Delete Dialog-->
     <string name="title_are_you_sure">Are You Sure?</string>
     <string name="message_delete_all">This will remove all log entries from the app, and cannot be undone.</string>
+    <string name="message_delete_selection">This will remove selected log entries from the app, and cannot be undone.</string>
 
 
     <!--Buttons-->
@@ -169,15 +175,15 @@
 
     <!--Nav Menus-->
 
-    <string name="arrayItem_climbing_log">Climbing Log</string>
-    <string name="arrayItem_dictionary">Dictionary</string>
-    <string name="arrayItem_gear_log">Gear Log</string>
-    <string name="arrayItem_guides">Guides</string>
+    <string name="array_item_climbing_log">Climbing Log</string>
+    <string name="array_item_dictionary">Dictionary</string>
+    <string name="array_item_gear_log">Gear Log</string>
+    <string name="array_item_guides">Guides</string>
 
     <string-array name="navMenu">
-        <item>@string/arrayItem_climbing_log</item>
-        <item>@string/arrayItem_dictionary</item>
-        <item>@string/arrayItem_gear_log</item>
-        <item>@string/arrayItem_guides</item>
+        <item>@string/array_item_climbing_log</item>
+        <item>@string/array_item_dictionary</item>
+        <item>@string/array_item_gear_log</item>
+        <item>@string/array_item_guides</item>
     </string-array>
 </resources>

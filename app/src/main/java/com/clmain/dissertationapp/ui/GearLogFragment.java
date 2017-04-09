@@ -14,7 +14,7 @@ import com.clmain.dissertationapp.R;
  * A simple {@link Fragment} subclass.
  */
 public class GearLogFragment extends Fragment {
-
+    android.support.v7.widget.Toolbar tool;
     public GearLogFragment() {
         // Required empty public constructor
     }
@@ -31,5 +31,15 @@ public class GearLogFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_gear_log, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        tool = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.main_toolbar);
+        tool.setTitle(R.string.array_item_gear_log);
+        super.onViewCreated(view, savedInstanceState);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 }

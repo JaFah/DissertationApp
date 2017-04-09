@@ -6,12 +6,24 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionModeStyle">@style/actionBar</item>
+        <item name="actionModeBackground">@color/colorPrimary</item>
     </style>
 
     <style name="climbLog">
         <item name="android:padding">4dp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginLeft">8dp</item>
+    </style>
+    
+    <style name="ActionMode" parent="Widget.AppCompat.ActionBar">
+        <item name="background">@color/colorPrimary</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
+
+    <style name="actionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="titleTextColor">@color/white</item>
     </style>
 
 </resources>

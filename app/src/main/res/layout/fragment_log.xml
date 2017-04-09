@@ -4,30 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
     tools:context="com.clmain.dissertationapp.ui.climblog.ClimbLogFragment"
-    android:background="#eeeeee"
     >
     <TextView
         android:id="@+id/text_sorter_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_view_sorter_title"
+        android:padding="16dp"
         android:textSize="24sp"
-        android:textStyle="normal|bold" />
+        android:textStyle="normal|bold"
+        android:background="#ffffff"/>
     <Spinner
         android:id="@+id/spinner_sorter"
         android:hint="@string/spinner_hint_sorter"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#ffffff"/>
+        android:background="#ffffff"
+        android:padding="4dp"
+        />
 
     <ListView
         android:id="@+id/layout_list_climb_log"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:choiceMode="multipleChoiceModal"
         android:clickable="true"
+        android:padding="4dp"
 
         >
     </ListView>

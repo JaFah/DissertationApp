@@ -240,7 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             }while(c.moveToNext());
         }
-
+        db.close();
         return logs;
     }
 
