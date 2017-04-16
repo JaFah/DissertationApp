@@ -84,9 +84,6 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
             EditText location = (EditText)getView().findViewById(R.id.edit_location);
             EditText grade = (EditText)getView().findViewById(R.id.edit_grade);
             EditText comments = (EditText)getView().findViewById(R.id.edit_comments);
-            TextView title = (TextView)getView().findViewById(R.id.text_climb_title);
-
-            title.setText(R.string.text_view_edit_climb_title);
 
             if(!(log.getDate().equals(getResources().getString(R.string.db_no_date)))) {
                 date.setText(log.getDate());

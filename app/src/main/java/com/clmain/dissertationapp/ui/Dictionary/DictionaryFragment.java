@@ -2,31 +2,18 @@ package com.clmain.dissertationapp.ui.dictionary;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
-import android.widget.TabWidget;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.clmain.dissertationapp.R;
 
-import java.util.Arrays;
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * Use the {@link DictionaryFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A {@link Fragment} subclass, that displays the Climbing Dictionary.
  */
 public class DictionaryFragment extends Fragment {
     int tab;
@@ -34,22 +21,77 @@ public class DictionaryFragment extends Fragment {
     android.support.v7.widget.Toolbar tool;
 
     TabHost tabHost;
+
+    /**
+     * Required empty public constructor
+     */
     public DictionaryFragment() {
-        // Required empty public constructor
     }
 
-    public static DictionaryFragment newInstance() {
-        DictionaryFragment fragment = new DictionaryFragment();
-        return fragment;
-    }
 
+
+    /**
+     * Inflates layout for fragment
+     * @param inflater - Layout Inflater used to inflate Layout
+     * @param container - Parent view that fragment is atatched to.
+     * @param savedInstanceState - Reconstrution Data if recreating fragment from previous state
+     * @return Fragment's Layout View
+     */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_dictionary, container, false);
     }
 
+    /**
+     * Called when View is created. Sets up TabHost
+     * @param view view returned by onCreateView
+     * @param savedInstanceState bundle containing information for fragment recreation
+     */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        setupTabHost();
+    }
+
+    /**
+     * Caleed when Visible to User. Sets title, and populates dictionary ListViews
+     */
+    @Override
+    public void onStart() {
+        tabs =  (TabHost)getView().findViewById(R.id.tab_host_dictionary);
+        tool = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.main_toolbar);
+        tool.setTitle(R.string.array_item_dictionary);
+
+        populateDictionaryListViews();
+        super.onStart();
+
+    }
+
+    /**
+     * Called when fragment is paused. Saves currently selected tab, so when fragment is recreated
+     * it can be set to be the same as when paused
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        tab =tabs.getCurrentTab();
+
+    }
+
+    /**
+     * Called when activity is resumed. Sets tab and title to previous state if application was paused.
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        tabs.setCurrentTab(tab);
+        tool.setTitle(R.string.array_item_dictionary);
+    }
+
+    /**
+     * Sets up tab host, and populates them with Views
+     */
+    private void setupTabHost() {
         tabHost=(TabHost)getView().findViewById(R.id.tab_host_dictionary);
         tabHost.setup();
 
@@ -72,70 +114,19 @@ public class DictionaryFragment extends Fragment {
         spec.setContent(R.id.Jargon);
         spec.setIndicator("Jargon");
 
-        TabWidget tabWidget = tabHost.getTabWidget();
         tabHost.addTab(spec);
     }
 
-    private void displayDictionary() {
-//        DatabaseHelper db = new DatabaseHelper(super.getContext());
-//        List<Dictionary> entries = db.readAllDictionaryEntries();
-//
-//        FrameLayout layout = (FrameLayout)getView().findViewById(R.id.dictionary_content);
-//        for(int i=0; i<entries.size(); i++) {
-//            TextView title = new TextView(super.getContext());
-//
-//            System.out.println("Title: " + entries.get(i).getTitle() + ". Array Length: " + entries.size());
-//
-//            title.setText(entries.get(i).getTitle());
-//            title.setId(i);
-//            String tag = "title" + i;
-//            title.setTag(tag);
-//
-//            if(i!=0) {
-//                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)title.getLayoutParams();
-//                //lp.addRule(RelativeLayout.BELOW,(TextView)findViewWithTag("description"+(i-1)));
-//            }
-//            layout.addView(title);
-//
-//            TextView description = new TextView(super.getContext());
-//            description.setText(entries.get(i).getDescription());
-//            RelativeLayout.LayoutParams lpd = (RelativeLayout.LayoutParams)description.getLayoutParams();
-//            //lpd.addRule(RelativeLayout.BELOW, (TextView)getView().findViewWithTag("title"+i).getId());
-//            layout.addView(description);
-//
-//
-//            switch(entries.get(i).getTitle()) {
-//                case "Crimp":
-//                    ImageView img = new ImageView(super.getContext());
-//                    img.setImageResource(R.mipmap.image_crimp);
-//                    layout.addView(img);
-//                    break;
-//                case "Beta":
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dictionary, container, false);
-    }
-
-    @Override
-    public void onStart() {
-        displayDictionary();
-        tool = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.main_toolbar);
-        tool.setTitle(R.string.array_item_climbing_log);
+    /**
+     * Populates dictionary listviews with String arrays, and sets click listeners.
+     */
+    private void populateDictionaryListViews() {
         ListView list = (ListView)getView().findViewById(R.id.list_tab_techniques);
-        //DictionaryAdapter adapter = new DictionaryAdapter(getContext(), R.layout.list_dictionary_entry, dictionary);
 
         list.setAdapter(new DictionaryAdapter(getContext(),R.layout.list_dictionary_entry, getResources().getStringArray(R.array.dictionary_title_techniques)));
         list.setClickable(true);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DictionaryEntryFragment fragment = new DictionaryEntryFragment();
@@ -150,25 +141,9 @@ public class DictionaryFragment extends Fragment {
                 ft.replace(R.id.main_content, fragment, "dictioanry entry");
                 ft.addToBackStack(null).commit();
             }
-        });
-        super.onStart();
 
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        tabs = (TabHost)getView().findViewById(R.id.tab_host_dictionary);
-        tab =tabs.getCurrentTab();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        tabs = (TabHost)getView().findViewById(R.id.tab_host_dictionary);
-        tabs.setCurrentTab(tab);
-        tool.setTitle(R.string.array_item_dictionary);
+        };
+        list.setOnItemClickListener(listener);
     }
 
 }
