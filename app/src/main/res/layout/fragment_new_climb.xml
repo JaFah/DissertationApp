@@ -54,9 +54,10 @@
                 android:padding="8dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/edit_hint_location"
-                android:layout_below="@id/layout_date"
                 style="@style/climbLog"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:layout_below="@+id/layout_date"
+                android:layout_alignParentEnd="true" />
             <TextView
                 android:id="@+id/text_style"
                 android:layout_width="match_parent"
@@ -121,18 +122,8 @@
                 android:paddingBottom="20dp"
                 android:minLines="5"
                 />
+
+
         </RelativeLayout>
     </ScrollView>
-    <Button
-        android:id="@+id/button_enter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_submit"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:onClick="onClick"
-        android:layout_alignParentBottom="true"
-        android:layout_weight="0"
-        />
 </LinearLayout>

@@ -73,14 +73,7 @@ public class DictionaryFragment extends Fragment {
         spec.setIndicator("Jargon");
 
         TabWidget tabWidget = tabHost.getTabWidget();
-
-
-
-
         tabHost.addTab(spec);
-
-
-
     }
 
     private void displayDictionary() {

@@ -9,8 +9,12 @@
         android:icon="@drawable/ic_add_black_24dp"
         />
     <item android:id="@+id/button_delete_all"
-        android:title="@string/button_delete"
-        app:showAsAction="ifRoom"
+        android:title="@string/button_delete_all"
+        app:showAsAction="never"
         android:icon="@drawable/ic_delete_black_24dp"
+        />
+    <item android:id="@+id/button_about"
+        android:title="@string/button_about"
+        app:showAsAction="never"
         />
 </menu>

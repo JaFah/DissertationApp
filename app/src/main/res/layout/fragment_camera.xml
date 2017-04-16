@@ -3,16 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.clmain.dissertationapp.ui.GuideFragment">
+    tools:context="com.clmain.dissertationapp.ui.CameraFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24dp"
-        android:text="Guide not yet implemented" />
+        android:text="Camera Not Implemented" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="The guide will provide information and guides different subjects such as styles of climbs, and technique."/>
+        android:text="The camera fucntion will allow climbers to photograph a route, which can then be annotated on to highlight points of interest or routes for other climbers. This could then be shared with other app users or exported. Alternatively this could be saved into the log with the relevant entry." />
+
 </LinearLayout>

@@ -3,6 +3,9 @@ package com.clmain.dissertationapp.ui.climblog;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,6 +31,7 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
 
     //ID of climb to edit, -1 if new
     private int climbID;
+    android.support.v7.widget.Toolbar tool;
 
     public NewClimbFragment() {
         // Required empty public constructor
@@ -47,7 +51,7 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_new_climb, container, false);
         return view;
     }
@@ -57,8 +61,9 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
 
         Spinner spinnerStyle = (Spinner)getView().findViewById(R.id.spinner_style);
         Spinner spinnerGrade = (Spinner)getView().findViewById(R.id.spinner_grade);
-        Button enter = (Button)getView().findViewById(R.id.button_enter);
         Button date = (Button)getView().findViewById(R.id.button_date);
+
+
 
         ArrayAdapter<CharSequence> StyleAdapter = ArrayAdapter.createFromResource(getContext(), R.array.spinner_style, android.R.layout.simple_spinner_dropdown_item);
         spinnerStyle.setAdapter(StyleAdapter);
@@ -69,12 +74,11 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
         spinnerGrade.setAdapter(GradeAdapter);
         spinnerGrade.setOnItemSelectedListener(this);
 
-        enter.setOnClickListener(this);
         date.setOnClickListener(this);
 
         if(climbID!=-1) {
             //Load data from DB and display data
-            System.out.println("Loading from DB");
+            System.out.println("Loading from DB" + climbID);
             ClimbingLogbook log = new DatabaseHelper(getContext()).readClimbLogEntry(climbID);
             EditText name = (EditText)getView().findViewById(R.id.edit_climb_name);
             EditText location = (EditText)getView().findViewById(R.id.edit_location);
@@ -82,7 +86,6 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
             EditText comments = (EditText)getView().findViewById(R.id.edit_comments);
             TextView title = (TextView)getView().findViewById(R.id.text_climb_title);
 
-            enter.setText(R.string.button_update);
             title.setText(R.string.text_view_edit_climb_title);
 
             if(!(log.getDate().equals(getResources().getString(R.string.db_no_date)))) {
@@ -143,6 +146,14 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
 
     @Override
     public void onStart() {
+        tool = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.main_toolbar);
+        if (climbID== -1) {
+            tool.setTitle(R.string.new_climb);
+
+        }else {
+            tool.setTitle(R.string.update_climb);
+        }
+
         super.onStart();
 
 
@@ -157,6 +168,21 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
         super.onResume();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //Adds menu to action bar
+        menu.clear();
+        inflater.inflate(R.menu.new_climb_menu, menu);
+        MenuItem menuSave = menu.findItem(R.id.item_climb_save);
+        MenuItem menuEdit= menu.findItem(R.id.item_climb_edit);
+        if(climbID==-1)  {
+            menuEdit.setVisible(false);
+        }else {
+            menuSave.setVisible(false);
+        }
+
+    }
+
     //Listeners
     public void onClick(View view) {
         switch(view.getId()) {
@@ -164,27 +190,50 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
                 DatePickerFragment fragment = new DatePickerFragment().newInstance(this);
                 fragment.show(getFragmentManager(), "datePicker");
                 break;
-            case R.id.button_enter:
-                //unbound edit text, bound to text source, and reused
-                EditText text;
-                String date;
-                String name;
-                String location;
-                String style;
-                String grade;
-                String comments;
 
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onDateSet(Date date) {
+        Button b = (Button)getView().findViewById(R.id.button_date);
+        b.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(date));
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Handles option selection from action bar
+
+        //unbound Views, bound to source, value taken, then reused
+        EditText text;
+        Spinner spinner;
+
+        String date;
+        String name;
+        String location;
+        String style;
+        String grade;
+        String comments;
+        ClimbingLogbook log = new ClimbingLogbook();
+        DatabaseHelper dbHelp;
+
+        Button button = (Button)getView().findViewById((R.id.button_date));
+
+        switch (item.getItemId()) {
+            case R.id.item_climb_save:
                 //Name
                 text = (EditText) getView().findViewById(R.id.edit_climb_name);
                 if(text.getText().toString().equals("")) {
+                    //If Blank, set Default
                     name=getResources().getString(R.string.db_no_name);
                 }else {
                     name = text.getText().toString();
                 }
 
-
                 //date
-                Button button = (Button)getView().findViewById((R.id.button_date));
                 if(button.getText().toString().equals("Enter Date")) {
                     date=getResources().getString(R.string.db_no_date);
                 }else {
@@ -200,7 +249,67 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
                 }
 
                 //Style
-                Spinner spinner = (Spinner)getView().findViewById(R.id.spinner_style);
+                spinner = (Spinner)getView().findViewById(R.id.spinner_style);
+                style = spinner.getSelectedItem().toString();
+
+                //Grading
+                text = (EditText)getView().findViewById(R.id.edit_grade);
+                if(text.getText().toString().equals("")) {
+                    grade=getResources().getString(R.string.db_no_grade);
+                }else {
+                    grade = text.getText().toString();
+                }
+
+                //Comments
+                text = (EditText)getView().findViewById(R.id.edit_comments);
+                if(text.getText().toString().equals("")) {
+                    comments = "No Comments";
+                }else {
+                    comments = text.getText().toString();
+                }
+                log = new ClimbingLogbook();
+
+                log.setName(name);
+                log.setLocation(location);
+                log.setDate(date);
+                log.setStyle(style);
+                log.setGrade(grade);
+                log.setComments(comments);
+
+                dbHelp = new DatabaseHelper(getContext());
+                dbHelp.createClimbLogEntry(log);
+
+                getFragmentManager().popBackStack();
+                Toast.makeText(getContext(), "Climb Added!", Toast.LENGTH_SHORT).show();
+
+                return true;
+            case R.id.item_climb_edit:
+                //Name
+                text = (EditText) getView().findViewById(R.id.edit_climb_name);
+                if(text.getText().toString().equals("")) {
+                    name=getResources().getString(R.string.db_no_name);
+                }else {
+                    name = text.getText().toString();
+                }
+
+                //date
+                button = (Button)getView().findViewById((R.id.button_date));
+                if(button.getText().toString().equals("Enter Date")) {
+                    date=getResources().getString(R.string.db_no_date);
+                }else {
+                    date=button.getText().toString();
+                }
+
+                //Location
+                text = (EditText)getView().findViewById(R.id.edit_location);
+                if(text.getText().toString().equals("")) {
+                    location=getResources().getString(R.string.db_no_location);
+                }else {
+                    location = text.getText().toString();
+                }
+
+                //Style
+                spinner = (Spinner)getView().findViewById(R.id.spinner_style);
                 style = spinner.getSelectedItem().toString();
 
                 //Grading
@@ -220,7 +329,7 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
                 }else {
                     comments = text.getText().toString();
                 }
-                ClimbingLogbook log = new ClimbingLogbook();
+                log = new ClimbingLogbook();
 
                 log.setName(name);
                 log.setLocation(location);
@@ -229,7 +338,7 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
                 log.setGrade(grade);
                 log.setComments(comments);
 
-                DatabaseHelper dbHelp = new DatabaseHelper(getContext());
+                dbHelp = new DatabaseHelper(getContext());
 
                 if(climbID!=-1) {
                     log.setID(climbID);
@@ -253,18 +362,11 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
                 }else {
                     Toast.makeText(getContext(), "Climb Added!", Toast.LENGTH_SHORT).show();
                 }
+                return true;
 
-                break;
             default:
-                break;
+                return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onDateSet(Date date) {
-        Button b = (Button)getView().findViewById(R.id.button_date);
-        b.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(date));
-
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {

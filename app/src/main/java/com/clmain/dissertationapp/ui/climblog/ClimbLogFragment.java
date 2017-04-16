@@ -6,13 +6,15 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
-import android.view.ActionMode;
+import android.support.v7.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +45,7 @@ import java.util.List;
  * Use the {@link ClimbLogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ClimbLogFragment extends Fragment  {
+public class ClimbLogFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     ListView listView;
     String[] dates;
@@ -82,7 +84,8 @@ public class ClimbLogFragment extends Fragment  {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Spinner spinner = (Spinner)getView().findViewById(R.id.spinner_sorter);
-        spinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.spinner_sorter, android.R.layout.simple_spinner_dropdown_item));
+        spinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.spinner_sorter, R.layout.spinner_sorter_text));
+        spinner.setOnItemSelectedListener(this);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -96,7 +99,7 @@ public class ClimbLogFragment extends Fragment  {
         listView.setAdapter(adapter);
         if(dates.length==0) {
             //Empty Database
-            databaseIsEmpty();
+            isDatabaseEmpty();
         }else {
             listView.setClickable(true);
             final Boolean[] selected = new Boolean[listView.getCount()];
@@ -125,18 +128,10 @@ public class ClimbLogFragment extends Fragment  {
             listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
 
                 @Override
-                public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                    selected[position] = !selected[position];
-                    System.out.println("Position: " + position + ", State: " + selected[position]);
-                }
-
-                @Override
-                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                    tool.setVisibility(View.GONE);
-                    // Todo mode.
+                public boolean onCreateActionMode(android.view.ActionMode mode, Menu menu) {
+                        //tool.setVisibility(View.GONE);
                     for (int i = 0; i < listView.getCount(); i++) {
                         long layout = adapter.getItemId(0);
-
                     }
                     listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries,dates, names, locations, styles, grades, comments));
 
@@ -148,12 +143,12 @@ public class ClimbLogFragment extends Fragment  {
                 }
 
                 @Override
-                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                public boolean onPrepareActionMode(android.view.ActionMode mode, Menu menu) {
                     return true;
                 }
 
                 @Override
-                public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
+                public boolean onActionItemClicked(final android.view.ActionMode mode, MenuItem item) {
                     if (item.getItemId() == R.id.button_delete) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle(R.string.title_are_you_sure);
@@ -169,13 +164,9 @@ public class ClimbLogFragment extends Fragment  {
                                     }
                                 }
                                 getEntries();
-                                if(dates.length==0) {
-                                    databaseIsEmpty();
-                                }
                                 ((ClimbLogAdapter) listView.getAdapter()).swapItems(dates, names, locations, styles, grades, comments);
-                                //listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments));
                                 dialog.dismiss();
-
+                                isDatabaseEmpty();
                                 mode.finish();
 
                             }
@@ -194,10 +185,16 @@ public class ClimbLogFragment extends Fragment  {
                 }
 
                 @Override
-                public void onDestroyActionMode(ActionMode mode) {
-                    tool.setVisibility(View.VISIBLE);
+                public void onDestroyActionMode(android.view.ActionMode mode) {
+                    //tool.setVisibility(View.VISIBLE);
                     getEntries();
                     listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments));
+                }
+
+                @Override
+                public void onItemCheckedStateChanged(android.view.ActionMode mode, int position, long id, boolean checked) {
+                    selected[position] = !selected[position];
+                    System.out.println("Position: " + position + ", State: " + selected[position]);
                 }
             });
         }
@@ -264,8 +261,8 @@ public class ClimbLogFragment extends Fragment  {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         new DatabaseHelper(getContext()).deleteAllClimbLogEntries();
-
                         getEntries();
+                        isDatabaseEmpty();
                         ((ClimbLogAdapter)listView.getAdapter()).swapItems(dates, names, locations, styles, grades, comments);
                         listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments));
                         dialog.dismiss();
@@ -308,20 +305,31 @@ public class ClimbLogFragment extends Fragment  {
         }
     }
 
-    private void databaseIsEmpty() {
+    private void isDatabaseEmpty() {
         TextView text = (TextView)getView().findViewById(R.id.text_sorter_title);
         Spinner spinner = (Spinner)getView().findViewById(R.id.spinner_sorter);
-        text.setVisibility(View.GONE);
-        spinner.setVisibility(View.GONE);
-
-        TextView firstText = new TextView(getContext());
-        firstText.setText("To Start, click new ");
-        firstText.setTextSize(24);
-        firstText.setTypeface(null, Typeface.BOLD);
-        firstText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        LinearLayout layout = (LinearLayout)getView().findViewById(R.id.layout_cLimb_log_root);
-        layout.addView(firstText);
+        LinearLayout layout = (LinearLayout)getView().findViewById(R.id.layout_sorter);
+        if(dates.length==0) {
+            layout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground));
+            spinner.setVisibility(View.GONE);
+            text.setText(R.string.log_tutorial);
+            text.setTextColor(Color.parseColor("#000000"));
+        }else {
+            layout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+            spinner.setVisibility(View.VISIBLE);
+            text.setText(R.string.text_view_sorter_title);
+            text.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+        }
     }
 
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getContext(), "Sorting not Implemented", Toast.LENGTH_SHORT ).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

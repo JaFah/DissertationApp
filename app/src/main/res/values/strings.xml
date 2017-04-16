@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">DissertationApp</string>
+    <string name="app_name">Climb Logger</string>
 
     <!-- Misc-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="delete">Delete</string>
-
-
+    <string name="save">Save</string>
+    <string name="log_tutorial">To create a new log, click the \'+\' button</string>
 
     <!--Navigation Drawer-->
     <string name="drawer_open">Open</string>
@@ -34,6 +34,7 @@
     <string name="button_submit">Submit</string>
     <string name="button_edit">Edit</string>
     <string name="button_delete">Delete</string>
+    <string name="button_delete_all">Delete All</string>
     <string name="button_update">Update</string>
 
 
@@ -43,7 +44,7 @@
     <string name="text_view_edit_climb_title">Edit Climb</string>
     <string name="text_view_grade">Grading</string>
     <string name="text_view_style">Climbing Style</string>
-    <string name="text_view_sorter_title">Sort By...</string>
+    <string name="text_view_sorter_title">Sort By: </string>
 
 
     <!--editTexts-->
@@ -92,9 +93,9 @@
     Tape
     Chalk
     Protection
-     - Nuts/Wires
-     - Hexes
-     - Spring Loaded Camming Device (SLCD)/Cam/Friend
+    - Nuts/Wires
+    - Hexes
+    - Spring Loaded Camming Device (SLCD)/Cam/Friend
 
 
     <!--Jargon-->
@@ -175,15 +176,20 @@
 
     <!--Nav Menus-->
 
+    <!--Titles-->
     <string name="array_item_climbing_log">Climbing Log</string>
     <string name="array_item_dictionary">Dictionary</string>
     <string name="array_item_gear_log">Gear Log</string>
     <string name="array_item_guides">Guides</string>
+    <string name="array_item_climb_camera">Climb Camera</string>
+    <string name="new_climb">New Climb</string>
+    <string name="update_climb">Update Climb</string>
 
     <string-array name="navMenu">
         <item>@string/array_item_climbing_log</item>
         <item>@string/array_item_dictionary</item>
         <item>@string/array_item_gear_log</item>
         <item>@string/array_item_guides</item>
+        <item>@string/array_item_climb_camera</item>
     </string-array>
 </resources>

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle navDrawerToggle;
     private ListView navDrawerList;
     private ActionMenuItemView menuItem;
+    boolean toggle;
 
     MenuInflater inflater;
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
+        final Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
         //String to hold names for List Items
@@ -62,8 +63,12 @@ public class MainActivity extends AppCompatActivity {
         navListView.setOnItemClickListener(new DrawerItemClickListener());
 
         navDrawerToggle = new ActionBarDrawerToggle(this, navDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+
+            CharSequence title;
+
             public void onDrawerOpened(View view) {
-                ;
+                toggle=false;
+                title = getSupportActionBar().getTitle();
                 super.onDrawerOpened(view);
                 getSupportActionBar().setTitle(R.string.drawer_title);
                 invalidateOptionsMenu();
@@ -71,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
             }
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
+                System.out.println("Drawer closed. Toggle=" + toggle);
+                if(!toggle) {
+                    getSupportActionBar().setTitle(title);
+                }
                 invalidateOptionsMenu();
             }
 
@@ -184,6 +193,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            toggle=true;
+            System.out.println("Item Clicked. Toggle=" + toggle);
             selectItem(position, view);
         }
 
@@ -210,6 +221,12 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 3:
                     //Guide
+                    frag = new GuideFragment();
+                    break;
+                case 4:
+                    //Camera
+                    frag = new CameraFragment();
+                    break;
                 default:
                     //broken
                     frag = new Fragment();
