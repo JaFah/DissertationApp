@@ -7,13 +7,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,30 +19,75 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.clmain.dissertationapp.R;
-import com.clmain.dissertationapp.db.Dictionary;
-import com.clmain.dissertationapp.db.DatabaseHelper;
-import com.clmain.dissertationapp.db.DictionaryTags;
 import com.clmain.dissertationapp.ui.dictionary.DictionaryFragment;
 import com.clmain.dissertationapp.ui.climblog.ClimbLogFragment;
 
+/**
+ * The base activity for the application.
+ * Content is swapped in and out of here through the use of fragments.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private String[] navMenuTitles;
     private DrawerLayout navDrawerLayout;
     private ListView navListView;
     private ActionBarDrawerToggle navDrawerToggle;
-    private ListView navDrawerList;
-    private ActionMenuItemView menuItem;
+    ListView navDrawerList;
     boolean toggle;
 
     MenuInflater inflater;
 
+
+    //Activity Flow Methods
+
+    /**
+     * Called when Activity is created. Override sets content XML,
+     * creates an App Bar, and the Default Fragment is loaded
+     *
+     * @param savedInstanceState - Bundle Containing Dynamic date for activity recreation, saved from onPause
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
+        setupAppBar();
+        displayDefaultContent();
+
+    }
+
+    /**
+     * Called after Activity creation, synchronises state of nav drawer with drawerLayout
+     *
+     * @param savedInstanceState - - Bundle Containing Dynamic date for activity recreation, saved from onPause
+     */
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        navDrawerToggle.syncState();
+    }
+
+    //UI Creation
+
+    /**
+     * sets the default fragment(Climbing Log) that is loaded when the program first starts.
+     */
+    private void displayDefaultContent() {
+        //Set default window
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().replace(R.id.main_content, new ClimbLogFragment()).commit();
+
+        navListView.setItemChecked(0, true);
+        setTitle(R.string.array_item_climbing_log);
+    }
+
+    //App Bar
+
+    /**
+     * Creates an App Bar, and sets up the navigation panel
+     */
+    private void setupAppBar() {
         final Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
@@ -54,12 +97,17 @@ public class MainActivity extends AppCompatActivity {
 
         navListView = (ListView)findViewById(R.id.left_drawer);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+        }catch(NullPointerException e) {
+            //Action Bar not enabled
+            System.out.println("Action Bar not set: " + e);
+        }
 
 
-        navListView.setAdapter(new ArrayAdapter<String>(this,R.layout.list_nav_drawer, navMenuTitles));
+        navListView.setAdapter(new ArrayAdapter<>(this, R.layout.list_nav_drawer, navMenuTitles));
         navListView.setOnItemClickListener(new DrawerItemClickListener());
 
         navDrawerToggle = new ActionBarDrawerToggle(this, navDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
@@ -102,36 +150,19 @@ public class MainActivity extends AppCompatActivity {
         navDrawerLayout.addDrawerListener(navDrawerToggle);
         navDrawerToggle.syncState();
 
-
-        //Set default window
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.main_content, new ClimbLogFragment()).commit();
-
-        navListView.setItemChecked(0, true);
-        setTitle(R.string.array_item_climbing_log);
-
+        //set Status Bar Colour
         Window window = getWindow();
         window.setStatusBarColor(getColor(R.color.colorPrimaryDark));
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        navDrawerToggle.syncState();
-    }
+    //OptionsMenu
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        navDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
+    /**
+     * Called when options menu is created. Inflates the main menu.
+     *
+     * @param menu - Menu to inflate
+     * @return true - the menu was inflated successfully
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         inflater = getMenuInflater();
@@ -139,23 +170,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if(navDrawerToggle.onOptionsItemSelected(item) && item.getItemId()==R.id.home) {
-            return true;
-        }
-        switch(item.getItemId()) {
-            case  R.id.button_about :
-                //TODO Implement 'About'
-                Toast.makeText(this, "'About' is not implemented yet", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
-
+    /**
+     * Prepares the navigation panel menu.
+     *
+     * @param menu - Drawer Menu
+     * @return Drawer state (Open/Closed)
+     */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -163,42 +183,37 @@ public class MainActivity extends AppCompatActivity {
         navDrawerList=(ListView)findViewById(R.id.left_drawer);
         boolean drawerOpen = navDrawerLayout.isDrawerOpen(navDrawerList);
 
-        if(drawerOpen) {
-            return false;
-        } else {
-            return true;
-        }
+        return !drawerOpen;
     }
 
-    private void debug_populateDb() {
-        Dictionary dictionary = new Dictionary();
+    //Navigation Drawer
 
-        dictionary.setTitle("Crimp");
-        dictionary.setDescription("Very narrow hand hold where only the tips of the fingers have purchase");
-        dictionary.setImageLocation("@mipmap/image_crimp.png");
-
-        DatabaseHelper ddb = new DatabaseHelper(this);
-        ddb.createDictionaryEntry(dictionary, new DictionaryTags());
-
-        dictionary.setTitle("Beta");
-        dictionary.setTitle("Advice on how to complete a route");
-        dictionary.setImageLocation("");
-        ddb.createDictionaryEntry(dictionary, new DictionaryTags());
-
-
-
+    /**
+     * Used to notify the DrawerToggle of a change in state
+     * @param newConfig the new Configuration of the Drawer Toggle
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        navDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+
+    //Listeners
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             toggle=true;
-            System.out.println("Item Clicked. Toggle=" + toggle);
-            selectItem(position, view);
+            selectItem(position);
         }
 
-        private void selectItem(int position, View view) {
+        /**
+         * called when selection is made from navigation drawer, and handles the response.
+         * Replaces current Fragment with selection.
+         * @param position - position of selection in list
+         */
+        private void selectItem(int position) {
 
             Fragment frag;
             FragmentManager fragmentManager;
@@ -212,7 +227,6 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     //Dictionary
                     frag = new DictionaryFragment();
-
                     break;
                 case 2:
                     //Gear Log
@@ -239,6 +253,26 @@ public class MainActivity extends AppCompatActivity {
             setTitle(navMenuTitles[position]);
             navDrawerLayout.closeDrawer(navListView);
         }
+    }
+
+    /**
+     * Called when an options menu item is selected.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(navDrawerToggle.onOptionsItemSelected(item) && item.getItemId()==R.id.home) {
+            return true;
+        }
+        switch(item.getItemId()) {
+            case  R.id.button_about :
+                //TODO Implement 'About'
+                Toast.makeText(this, "'About' is not implemented yet", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
 
