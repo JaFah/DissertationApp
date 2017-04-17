@@ -10,13 +10,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by user on 23/03/2017.
+ * Displays a Dialog to the User to choose a Date when Initialized
  */
-
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private DatePickerFragmentListener listener;
 
+    /**
+     * Creates a new instance of date picker, defaulting to the current day
+     * @param savedinstanceState - Values if reconstructing fragment
+     * @return Dialog to display to user
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedinstanceState) {
         final Calendar c = Calendar.getInstance();
@@ -29,7 +33,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     public interface DatePickerFragmentListener {
-        public void onDateSet(Date date);
+        void onDateSet(Date date);
     }
 
     public DatePickerFragmentListener getDatePickerFragmentListener() {
@@ -45,6 +49,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
             this.listener.onDateSet(date);
         }
     }
+
     public static DatePickerFragment newInstance(DatePickerFragmentListener listener) {
         DatePickerFragment fragment = new DatePickerFragment();
         fragment.setDatePickerListener(listener);
@@ -62,4 +67,3 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
 
 }
-

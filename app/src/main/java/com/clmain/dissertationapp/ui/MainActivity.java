@@ -269,6 +269,9 @@ public class MainActivity extends AppCompatActivity {
                 //TODO Implement 'About'
                 Toast.makeText(this, "'About' is not implemented yet", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.button_help:
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

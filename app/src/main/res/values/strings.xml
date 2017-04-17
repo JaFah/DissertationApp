@@ -19,6 +19,7 @@
     <string name="db_no_name">Untitled Climb</string>
     <string name="db_no_location">Location not Specified</string>
     <string name="db_no_grade">Ungraded Climb</string>
+    <string name="db_no_height">No Height Set</string>
 
     <!--Delete Dialog-->
     <string name="title_are_you_sure">Are You Sure?</string>
@@ -28,6 +29,8 @@
 
     <!--Buttons-->
     <string name="button_about">About</string>
+    <string name="button_help">Help</string>
+    <string name="button_search">Search</string>
     <string name="button_log">Equipment Log</string>
     <string name="button_new_entry">New Entry</string>
     <string name="button_date">Enter Date</string>
@@ -43,8 +46,10 @@
     <string name="text_view_new_climb_title">New Climb</string>
     <string name="text_view_edit_climb_title">Edit Climb</string>
     <string name="text_view_grade">Grading</string>
+    <string name="text_view_height">Height Climbed</string>
     <string name="text_view_style">Climbing Style</string>
     <string name="text_view_sorter_title">Sort By: </string>
+    <string name="text_view_comments">Comments</string>
 
 
     <!--editTexts-->
@@ -52,6 +57,7 @@
     <string name="edit_hint_location">Enter Location</string>
     <string name="edit_hint_grade">Enter Grade Here</string>
     <string name="edit_hint_comments">Enter Comments Here</string>
+    <string name="edit_hint_height">Enter Height Climbed</string>
 
     <!--Spinners-->
     <string name="spinner_hint_style">Select Style</string>
@@ -61,10 +67,18 @@
     <!--Tab labels-->
     <string name="tab_all">All</string>
     <string name="tab_techniques">Techniques &amp; Holds</string>
-    <string name="tab_jargon">Jargon</string>
-    <string name="equipment">Equipment</string>
+    <string name="tab_misc">Misc Vocabulary</string>
+    <string name="tab_equipment">Equipment</string>
 
-    <!--Dictionary Strings -->
+    <!--Searchable-->
+    <string name="search_hint">Search Terms</string>
+
+    <!--Toasts-->
+    <string name="toast_saved">Climb Added!</string>
+    <string name="toast_updated">Climb Updated!</string>
+
+
+    <!--Dictionary Titles -->
     <!--Techniques-->
     <string name="arete_technique">Arete (Technique)</string>
     <string name="barndoor">Barndoor</string>
@@ -79,26 +93,29 @@
     <string name="toe_hook">Toe Hook</string>
 
     <!--Equipment-->
-    carabiner/crab
-    Rope
-    Belay Plate/GriGri
-    Rope
-    Sling
-    Ascender/Descender
-    Quickdraw
-    Harness
-    Helmet
-    Climbing Shoes/Rock Shoes
-    Belay Gloves
-    Tape
-    Chalk
-    Protection
-    - Nuts/Wires
-    - Hexes
-    - Spring Loaded Camming Device (SLCD)/Cam/Friend
-
+    <string name="ascender">Ascenders &amp; Descenders</string>
+    <string name="belay_gloves">Belay Gloves</string>
+    <string name="belay_plate">Belay Plate</string>Gri Gri
+    <string name="carabiner">Carabiner</string> Crab/Beaner
+    <string name="chalk">Chalk</string>
+    <string name="harness">Harness</string>
+    <string name="helmet">Helmet</string>
+    <string name="hex">Hexes</string>
+    <string name="nut">Nut</string>Wire/Chock
+    <string name="protection">Protection</string>
+    <string name="quickdraw">Quickdraw</string>
+    <string name="rope">Rope</string>
+    <string name="shoes">Climbing Shoes</string> Rock Shoes
+    <string name="slcd">Spring Loaded Camming Device (SLCD)</string>Cam/Friend
+    <string name="sling">Sling</string>
+    <string name="tape">Tape</string>
 
     <!--Jargon-->
+
+
+
+
+
 
 
     <!--Arrays-->
@@ -125,7 +142,22 @@
 
     <!--Equipment-->
     <string-array name="dictionary_title_equipment">
-
+        <item>@string/ascender</item>
+        <item>@string/belay_gloves</item>
+        <item>@string/belay_plate</item>
+        <item>@string/carabiner</item>
+        <item>@string/chalk</item>
+        <item>@string/harness</item>
+        <item>@string/helmet</item>
+        <item>@string/hex</item>
+        <item>@string/nut</item>
+        <item>@string/protection</item>
+        <item>@string/quickdraw</item>
+        <item>@string/rope</item>
+        <item>@string/shoes</item>
+        <item>@string/slcd</item>
+        <item>@string/sling</item>
+        <item>@string/tape</item>
     </string-array>
 
     <!--Jargon-->
@@ -134,7 +166,7 @@
 
     </string-array>
 
-    <!--Techniques-->
+    <!--Dictionary Definitions-->
     <string-array name="dictionary_definition_techniques">
         <item>Using a spine of rock to climb up</item>
         <item>Unintentionally coming away from the rock in an uncontrolled manor</item>

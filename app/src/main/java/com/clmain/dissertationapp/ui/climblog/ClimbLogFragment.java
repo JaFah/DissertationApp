@@ -54,6 +54,7 @@ public class ClimbLogFragment extends Fragment implements AdapterView.OnItemSele
     String[] styles;
     String[] grades;
     String[] comments;
+    String[] heights;
     android.support.v7.widget.Toolbar tool;
 
 
@@ -95,7 +96,7 @@ public class ClimbLogFragment extends Fragment implements AdapterView.OnItemSele
         tool.setTitle(R.string.array_item_climbing_log);
         listView = (ListView)getView().findViewById(R.id.layout_list_climb_log);
         getEntries();
-        final ClimbLogAdapter adapter =new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments);
+        final ClimbLogAdapter adapter =new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments, heights);
         listView.setAdapter(adapter);
         if(dates.length==0) {
             //Empty Database
@@ -133,7 +134,7 @@ public class ClimbLogFragment extends Fragment implements AdapterView.OnItemSele
                     for (int i = 0; i < listView.getCount(); i++) {
                         long layout = adapter.getItemId(0);
                     }
-                    listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries,dates, names, locations, styles, grades, comments));
+                    listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries,dates, names, locations, styles, grades, comments, heights));
 
                     mode.setTitle(R.string.delete);
 
@@ -164,7 +165,7 @@ public class ClimbLogFragment extends Fragment implements AdapterView.OnItemSele
                                     }
                                 }
                                 getEntries();
-                                ((ClimbLogAdapter) listView.getAdapter()).swapItems(dates, names, locations, styles, grades, comments);
+                                ((ClimbLogAdapter) listView.getAdapter()).swapItems(dates, names, locations, styles, grades, comments, heights);
                                 dialog.dismiss();
                                 isDatabaseEmpty();
                                 mode.finish();
@@ -188,7 +189,7 @@ public class ClimbLogFragment extends Fragment implements AdapterView.OnItemSele
                 public void onDestroyActionMode(android.view.ActionMode mode) {
                     //tool.setVisibility(View.VISIBLE);
                     getEntries();
-                    listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments));
+                    listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments, heights));
                 }
 
                 @Override
@@ -207,7 +208,7 @@ public class ClimbLogFragment extends Fragment implements AdapterView.OnItemSele
     public void onResume() {
         super.onResume();
         getEntries();
-        ((ClimbLogAdapter)listView.getAdapter()).swapItems(dates, names, locations, styles, grades, comments);
+        ((ClimbLogAdapter)listView.getAdapter()).swapItems(dates, names, locations, styles, grades, comments, heights);
         tool.setTitle(R.string.array_item_climbing_log);
     }
 
@@ -263,8 +264,8 @@ public class ClimbLogFragment extends Fragment implements AdapterView.OnItemSele
                         new DatabaseHelper(getContext()).deleteAllClimbLogEntries();
                         getEntries();
                         isDatabaseEmpty();
-                        ((ClimbLogAdapter)listView.getAdapter()).swapItems(dates, names, locations, styles, grades, comments);
-                        listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments));
+                        ((ClimbLogAdapter)listView.getAdapter()).swapItems(dates, names, locations, styles, grades, comments, heights);
+                        listView.setAdapter(new ClimbLogAdapter(getContext(), R.layout.list_climb_log_entries, dates, names, locations, styles, grades, comments, heights));
                         dialog.dismiss();
                     }
                 });
@@ -294,6 +295,7 @@ public class ClimbLogFragment extends Fragment implements AdapterView.OnItemSele
         styles = new String[logs.size()];
         grades = new String[logs.size()];
         comments = new String[logs.size()];
+        heights = new String[logs.size()];
 
         for(int i=0; i<logs.size(); i++) {
             dates[i]=logs.get(i).getDate();
@@ -302,21 +304,25 @@ public class ClimbLogFragment extends Fragment implements AdapterView.OnItemSele
             styles[i]=logs.get(i).getStyle();
             grades[i]=logs.get(i).getGrade();
             comments[i]=logs.get(i).getComments();
+            heights[i]=logs.get(i).getHeight();
         }
     }
 
     private void isDatabaseEmpty() {
         TextView text = (TextView)getView().findViewById(R.id.text_sorter_title);
         Spinner spinner = (Spinner)getView().findViewById(R.id.spinner_sorter);
+        ListView listView = (ListView)getView().findViewById(R.id.layout_list_climb_log);
         LinearLayout layout = (LinearLayout)getView().findViewById(R.id.layout_sorter);
         if(dates.length==0) {
-            layout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground));
+            layout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
             spinner.setVisibility(View.GONE);
             text.setText(R.string.log_tutorial);
             text.setTextColor(Color.parseColor("#000000"));
+            listView.setVisibility(View.GONE);
         }else {
             layout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
             spinner.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.VISIBLE);
             text.setText(R.string.text_view_sorter_title);
             text.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
         }

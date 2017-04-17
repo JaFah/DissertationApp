@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/button_help"
+        android:title="@string/button_help"
+        app:showAsAction="never"/>
+    <item
     android:id="@+id/button_about"
     android:title="@string/button_about"
     app:showAsAction="never"/>

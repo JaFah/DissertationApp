@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
 
-    private static final int DATABASE_VERSION=3;
+    private static final int DATABASE_VERSION=1;
 
     private static final String DATABASE_NAME = "climbingApp";
 
@@ -35,6 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_GRADE="grade";
     private static final String COLUMN_STYLE="style";
     private static final String COLUMN_COMMENTS="comments";
+    private static final String COLUMN_HEIGHT="height";
 
     //Table Creation SQL
     private static final String CREATE_TABLE_LOGBOOK = "CREATE TABLE " +
@@ -45,6 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_LOCATION + " TEXT, " +
             COLUMN_GRADE + " TEXT, " +
             COLUMN_STYLE + " TEXT, " +
+            COLUMN_HEIGHT + " TEXT, " +
             COLUMN_COMMENTS + " TEXT" + ")";
 
 
@@ -101,7 +103,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_LOCATION, log.getLocation());
         values.put(COLUMN_STYLE, log.getStyle());
         values.put(COLUMN_GRADE, log.getGrade());
+        values.put(COLUMN_HEIGHT, log.getHeight());
         values.put(COLUMN_COMMENTS, log.getComments());
+
         db.insert(TABLE_CLIMBING_LOGBOOK, null, values);
         closeDB();
     }
@@ -131,6 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             log.setStyle(c.getString(c.getColumnIndex(COLUMN_STYLE)));
             log.setGrade(c.getString(c.getColumnIndex(COLUMN_GRADE)));
             log.setComments(c.getString(c.getColumnIndex(COLUMN_COMMENTS)));
+            log.setHeight(c.getString(c.getColumnIndex(COLUMN_HEIGHT)));
 
         db.close();
 
@@ -159,6 +164,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 log.setStyle(c.getString(c.getColumnIndex(COLUMN_STYLE)));
                 log.setGrade(c.getString(c.getColumnIndex(COLUMN_GRADE)));
                 log.setComments(c.getString(c.getColumnIndex(COLUMN_COMMENTS)));
+                log.setHeight(c.getString(c.getColumnIndex(COLUMN_HEIGHT)));
 
                 logs.add(log);
 
@@ -184,6 +190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_STYLE, log.getStyle());
         values.put(COLUMN_GRADE, log.getGrade());
         values.put(COLUMN_COMMENTS, log.getComments());
+        values.put(COLUMN_HEIGHT, log.getHeight());
 
         String id_row = COLUMN_ID_CLIMB_LOG+"=" + log.getID();
         db.update(TABLE_CLIMBING_LOGBOOK, values, id_row, null);

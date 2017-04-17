@@ -42,7 +42,6 @@
                 android:paddingTop="8dp"
                 android:layout_below="@+id/edit_climb_name"
                 android:layout_alignParentEnd="true" />
-
             <Button
                 android:id="@+id/button_date"
                 android:layout_width="match_parent"
@@ -101,16 +100,49 @@
                     android:paddingBottom="8dp"
                     android:maxLines="1"/>
             </LinearLayout>
+            <TextView
+                android:id="@+id/text_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingTop="16dp"
+                android:textStyle="bold"
+                android:text="@string/text_view_height"
+                android:textSize="16sp"
+                android:layout_below="@+id/layout_grade"
+                android:layout_alignParentStart="true" />
+            <EditText
+                android:id="@+id/edit_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edit_hint_height"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_below="@id/text_height"
+                android:maxLines="1"/>
+            <TextView
+                android:id="@+id/text_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingTop="16dp"
+                android:textStyle="bold"
+                android:text="@string/text_view_comments"
+                android:textSize="16sp"
+                android:layout_below="@+id/edit_height"
+                android:layout_alignParentStart="true" />
             <EditText
                 android:id="@+id/edit_comments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/edit_hint_comments"
-                android:layout_below="@id/layout_grade"
+                android:layout_below="@id/text_comments"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:minLines="5"
                 />
+
+
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>

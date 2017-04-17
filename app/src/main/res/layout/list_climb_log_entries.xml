@@ -57,12 +57,21 @@
         android:text="Grade"
         android:textSize="18sp" />
     <TextView
+        android:id="@+id/list_entry_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="height"
+        android:layout_below="@id/list_entry_style"
+        android:textSize="18sp" />
+    <TextView
         android:id="@+id/list_entry_comments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="comments"
-        android:layout_below="@id/list_entry_style"
+        android:layout_below="@id/list_entry_height"
         android:textSize="16sp" />
 </RelativeLayout>

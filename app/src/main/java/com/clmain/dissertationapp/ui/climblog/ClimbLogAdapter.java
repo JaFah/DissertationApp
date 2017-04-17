@@ -30,11 +30,12 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
     String[] style;
     String[] grade;
     String[] comments;
+    String[] height;
     Context context;
     LayoutInflater inflater;
     final ViewHolder holder = new ViewHolder();
 
-    public ClimbLogAdapter(Context context, int resource, String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments) {
+    public ClimbLogAdapter(Context context, int resource, String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments, String[] heights) {
         super(context, resource);
 
         this.context=context;
@@ -44,6 +45,7 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
         this.style=style;
         this.grade=grade;
         this.comments=comments;
+        this.height=heights;
     }
 
     @Override
@@ -64,6 +66,7 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
         holder.style = (TextView)convertView.findViewById(R.id.list_entry_style);
         holder.grade = (TextView)convertView.findViewById(R.id.list_entry_grade);
         holder.comments = (TextView)convertView.findViewById(R.id.list_entry_comments);
+        holder.height = (TextView)convertView.findViewById(R.id.list_entry_height);
 
         //Bind data to views
         holder.date.setText(date[position]);
@@ -72,10 +75,11 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
         holder.style.setText(style[position]);
         holder.grade.setText(grade[position]);
         holder.comments.setText(comments[position]);
+        holder.height.setText(height[position]);
         return convertView;
     }
 
-    public void swapItems(String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments) {
+    public void swapItems(String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments, String[] height) {
         for(int i=0;i<date.length;i++) {
             this.date=date;
             this.name=name;
@@ -83,6 +87,7 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
             this.style=style;
             this.grade=grade;
             this.comments=comments;
+            this.height=height;
             notifyDataSetChanged();
         }
     }
@@ -94,7 +99,7 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
         TextView style;
         TextView grade;
         TextView comments;
-        Button editButton;
+        TextView height;
     }
 
 

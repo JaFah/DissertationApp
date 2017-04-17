@@ -2,14 +2,21 @@ package com.clmain.dissertationapp.ui.dictionary;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TabHost;
+import android.widget.Toast;
+
 import com.clmain.dissertationapp.R;
 
 /**
@@ -27,8 +34,6 @@ public class DictionaryFragment extends Fragment {
      */
     public DictionaryFragment() {
     }
-
-
 
     /**
      * Inflates layout for fragment
@@ -89,6 +94,25 @@ public class DictionaryFragment extends Fragment {
     }
 
     /**
+     * Sets Custom App Bar menu on load.
+     * @param menu - Menu to Inflate
+     * @param inflater - Menu Inflater
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.dictionary_menu, menu);
+
+        //Associate Se\rchable configuration with the SearchView
+
+        SearchManager searchManager = (SearchManager)getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView)menu.findItem(R.id.button_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    /**
      * Sets up tab host, and populates them with Views
      */
     private void setupTabHost() {
@@ -97,22 +121,22 @@ public class DictionaryFragment extends Fragment {
 
         TabHost.TabSpec spec = tabHost.newTabSpec("Tab One");
         spec.setContent(R.id.All);
-        spec.setIndicator("All");
+        spec.setIndicator(getString(R.string.tab_all));
         tabHost.addTab(spec);
 
         spec = tabHost.newTabSpec("Tab Two");
         spec.setContent(R.id.Techniques);
-        spec.setIndicator("Techniques");
+        spec.setIndicator(getString(R.string.tab_techniques));
         tabHost.addTab(spec);
 
         spec = tabHost.newTabSpec("Tab Three");
         spec.setContent(R.id.Equipment);
-        spec.setIndicator("Equipment");
+        spec.setIndicator(getString(R.string.tab_equipment));
         tabHost.addTab(spec);
 
         spec = tabHost.newTabSpec("Tab Four");
-        spec.setContent(R.id.Jargon);
-        spec.setIndicator("Jargon");
+        spec.setContent(R.id.misc);
+        spec.setIndicator(getString(R.string.tab_misc));
 
         tabHost.addTab(spec);
     }
@@ -121,10 +145,10 @@ public class DictionaryFragment extends Fragment {
      * Populates dictionary listviews with String arrays, and sets click listeners.
      */
     private void populateDictionaryListViews() {
+        //Techniques
         ListView list = (ListView)getView().findViewById(R.id.list_tab_techniques);
 
         list.setAdapter(new DictionaryAdapter(getContext(),R.layout.list_dictionary_entry, getResources().getStringArray(R.array.dictionary_title_techniques)));
-        list.setClickable(true);
 
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
             @Override
@@ -138,12 +162,27 @@ public class DictionaryFragment extends Fragment {
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
 
-                ft.replace(R.id.main_content, fragment, "dictioanry entry");
+                ft.replace(R.id.main_content, fragment, "dictionary entry");
                 ft.addToBackStack(null).commit();
             }
 
         };
         list.setOnItemClickListener(listener);
+
+        //Equipment
+        list = (ListView)getView().findViewById((R.id.list_tab_equipment));
+        list.setAdapter(new DictionaryAdapter(getContext(), R.layout.list_dictionary_entry, getResources().getStringArray(R.array.dictionary_title_equipment)));
+
+        listener = new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(), "Coming Soon!", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        list.setOnItemClickListener(listener);
+
     }
 
 }
