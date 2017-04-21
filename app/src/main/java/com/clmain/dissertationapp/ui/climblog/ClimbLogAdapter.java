@@ -8,40 +8,43 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.clmain.dissertationapp.R;
+import com.clmain.dissertationapp.db.ClimbingLogbook;
+
+import java.util.List;
 
 /**
  * Adapter for ListView in CLimbLogFragment
  */
 
 class ClimbLogAdapter extends ArrayAdapter<String> {
-    private String[] date;
-    private String[] name;
-    private String[] location;
-    private String[] style;
-    private String[] grade;
-    private String[] comments;
-    private String[] height;
+    private List<ClimbingLogbook> logs;
     private Context context;
     private final ViewHolder holder = new ViewHolder();
 
-    ClimbLogAdapter(Context context, int resource, String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments, String[] heights) {
+    ClimbLogAdapter(Context context, int resource, List<ClimbingLogbook> logs) {
         super(context, resource);
 
         this.context=context;
-        this.date=date;
-        this.name=name;
-        this.location=location;
-        this.style=style;
-        this.grade=grade;
-        this.comments=comments;
-        this.height=heights;
+        this.logs=logs;
     }
 
+    /**
+     * Provides number of items in ListView.
+     * As each value is always set in database, length of arrays will always match, so date was used.
+     * @return number of date entries
+     */
     @Override
     public int getCount() {
-        return date.length;
+        return logs.size();
     }
 
+    /**
+     * Binds provided data to TextViews in layout, and returns created view
+     * @param position - position in ListView
+     * @param convertView - old view to reuse
+     * @param parent - parent view to attach to
+     * @return inflated view
+     */
     @NonNull
     @Override
     public View getView(final int position, View convertView, @NonNull final ViewGroup parent) {
@@ -59,27 +62,23 @@ class ClimbLogAdapter extends ArrayAdapter<String> {
         holder.height = (TextView)convertView.findViewById(R.id.list_entry_height);
 
         //Bind data to views
-        holder.date.setText(date[position]);
-        holder.name.setText(name[position]);
-        holder.location.setText(location[position]);
-        holder.style.setText(style[position]);
-        holder.grade.setText(grade[position]);
-        holder.comments.setText(comments[position]);
-        holder.height.setText(height[position]);
+        holder.date.setText(logs.get(position).getDate());
+        holder.name.setText(logs.get(position).getName());
+        holder.location.setText(logs.get(position).getLocation());
+        holder.style.setText(logs.get(position).getStyle());
+        holder.grade.setText(logs.get(position).getGrade());
+        holder.comments.setText(logs.get(position).getComments());
+        holder.height.setText(logs.get(position).getHeight());
+
         return convertView;
     }
 
-    void swapItems(String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments, String[] height) {
-        for (String ignored : date) {
-            this.date = date;
-            this.name = name;
-            this.location = location;
-            this.style = style;
-            this.grade = grade;
-            this.comments = comments;
-            this.height = height;
-            notifyDataSetChanged();
-        }
+    /**
+     * Called to update the values in the ListView
+     */
+    void swapItems(List<ClimbingLogbook> logs) {
+        this.logs = logs;
+        notifyDataSetChanged();
     }
 
     private class ViewHolder {
