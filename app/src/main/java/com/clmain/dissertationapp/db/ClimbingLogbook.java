@@ -9,9 +9,9 @@ public class ClimbingLogbook {
     private String date;
     private String location;
     private String name;
-    private String Grade;
-    private String Style;
-    private String Comments;
+    private String grade;
+    private String style;
+    private String comments;
     private String height;
 
     public String getHeight() {
@@ -47,27 +47,27 @@ public class ClimbingLogbook {
     }
 
     public String getGrade() {
-        return Grade;
+        return grade;
     }
 
     public void setGrade(String grade) {
-        Grade = grade;
+        this.grade = grade;
     }
 
     public String getStyle() {
-        return Style;
+        return style;
     }
 
     public void setStyle(String style) {
-        Style = style;
+        this.style = style;
     }
 
     public String getComments() {
-        return Comments;
+        return comments;
     }
 
     public void setComments(String comments) {
-        Comments = comments;
+        this.comments = comments;
     }
 
     public String getDate() {

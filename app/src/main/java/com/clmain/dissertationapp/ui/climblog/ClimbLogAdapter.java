@@ -1,41 +1,30 @@
 package com.clmain.dissertationapp.ui.climblog;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.os.Bundle;
-import android.view.ActionMode;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
-
 import com.clmain.dissertationapp.R;
-import com.clmain.dissertationapp.db.ClimbingLogbook;
-
-import java.util.List;
 
 /**
- * Created by user on 01/04/2017.
+ * Adapter for ListView in CLimbLogFragment
  */
 
-public class ClimbLogAdapter extends ArrayAdapter<String> {
-    String[] date;
-    String[] name;
-    String[] location;
-    String[] style;
-    String[] grade;
-    String[] comments;
-    String[] height;
-    Context context;
-    LayoutInflater inflater;
-    final ViewHolder holder = new ViewHolder();
+class ClimbLogAdapter extends ArrayAdapter<String> {
+    private String[] date;
+    private String[] name;
+    private String[] location;
+    private String[] style;
+    private String[] grade;
+    private String[] comments;
+    private String[] height;
+    private Context context;
+    private final ViewHolder holder = new ViewHolder();
 
-    public ClimbLogAdapter(Context context, int resource, String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments, String[] heights) {
+    ClimbLogAdapter(Context context, int resource, String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments, String[] heights) {
         super(context, resource);
 
         this.context=context;
@@ -53,10 +42,11 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
         return date.length;
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull final ViewGroup parent) {
         if(convertView==null) {
-            inflater= (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_climb_log_entries, null);
         }
 
@@ -79,20 +69,20 @@ public class ClimbLogAdapter extends ArrayAdapter<String> {
         return convertView;
     }
 
-    public void swapItems(String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments, String[] height) {
-        for(int i=0;i<date.length;i++) {
-            this.date=date;
-            this.name=name;
-            this.location=location;
-            this.style=style;
-            this.grade=grade;
-            this.comments=comments;
-            this.height=height;
+    void swapItems(String[] date, String[] name, String[] location, String[] style, String[] grade, String[] comments, String[] height) {
+        for (String ignored : date) {
+            this.date = date;
+            this.name = name;
+            this.location = location;
+            this.style = style;
+            this.grade = grade;
+            this.comments = comments;
+            this.height = height;
             notifyDataSetChanged();
         }
     }
 
-    public class ViewHolder {
+    private class ViewHolder {
         TextView date;
         TextView name;
         TextView location;

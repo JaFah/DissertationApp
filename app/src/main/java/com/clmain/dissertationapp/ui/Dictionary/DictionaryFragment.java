@@ -103,7 +103,7 @@ public class DictionaryFragment extends Fragment {
         menu.clear();
         inflater.inflate(R.menu.dictionary_menu, menu);
 
-        //Associate Se\rchable configuration with the SearchView
+        //Associate Searchable configuration with the SearchView
 
         SearchManager searchManager = (SearchManager)getActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView)menu.findItem(R.id.button_search).getActionView();
