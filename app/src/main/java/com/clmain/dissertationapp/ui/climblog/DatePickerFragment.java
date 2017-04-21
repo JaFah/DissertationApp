@@ -50,6 +50,11 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         }
     }
 
+    /**
+     * Creates a new DatePickerFragment and sets the Listener
+     * @param listener - Listener to use for new Fragment
+     * @return - Created Fragment
+     */
     public static DatePickerFragment newInstance(DatePickerFragmentListener listener) {
         DatePickerFragment fragment = new DatePickerFragment();
         fragment.setDatePickerListener(listener);
@@ -57,6 +62,13 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
 
+    /**
+     * Called when Date is set
+     * @param view DatePickerDialog
+     * @param year -Year
+     * @param month - Month
+     * @param day - Day
+     */
     public void onDateSet(DatePicker view, int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);

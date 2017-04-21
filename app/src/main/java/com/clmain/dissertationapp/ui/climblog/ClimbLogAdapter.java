@@ -21,6 +21,12 @@ class ClimbLogAdapter extends ArrayAdapter<String> {
     private Context context;
     private final ViewHolder holder = new ViewHolder();
 
+    /**
+     * Contructor. Sets globabl variables
+     * @param context - App Context
+     * @param resource- Resource ID for Layout File
+     * @param logs - Logs to use when populating ListView
+     */
     ClimbLogAdapter(Context context, int resource, List<ClimbingLogbook> logs) {
         super(context, resource);
 
@@ -30,7 +36,6 @@ class ClimbLogAdapter extends ArrayAdapter<String> {
 
     /**
      * Provides number of items in ListView.
-     * As each value is always set in database, length of arrays will always match, so date was used.
      * @return number of date entries
      */
     @Override
@@ -81,6 +86,9 @@ class ClimbLogAdapter extends ArrayAdapter<String> {
         notifyDataSetChanged();
     }
 
+    /**
+     * Class to hold Elements of View to be populated with data
+     */
     private class ViewHolder {
         TextView date;
         TextView name;

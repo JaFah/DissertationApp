@@ -5,13 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
-
 import com.clmain.dissertationapp.R;
 
 /**
- * Created by user on 06/04/2017.
+ * Used to populate Dictionary ListViews with Views
  */
 
 public class DictionaryAdapter extends ArrayAdapter<String> {
@@ -20,16 +18,34 @@ public class DictionaryAdapter extends ArrayAdapter<String> {
     LayoutInflater inflater;
     Context context;
 
-    public DictionaryAdapter(Context context, int resources, String[] title) {
-        super(context, resources);
+    /**
+     * Constructor. sets Local variables
+     * @param context - App Context
+     * @param resource - Resource Id to use for ListView items
+     * @param title - Array of text to bind to TextViews
+     */
+    public DictionaryAdapter(Context context, int resource, String[] title) {
+        super(context, resource);
         this.context=context;
         this.arrayTitle=title;
     }
+
+    /**
+     * get total number of items in ListView
+     * @return length of ListView
+     */
     @Override
     public int getCount() {
         return arrayTitle.length;
     }
 
+    /**
+     * Inflates the view to display
+     * @param position - Row position
+     * @param convertView - View to be reused
+     * @param parent - Parent View
+     * @return
+     */
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
         if (convertView == null) {
