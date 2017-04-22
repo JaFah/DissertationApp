@@ -101,7 +101,7 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
         menu.clear();
         inflater.inflate(R.menu.new_climb_menu, menu);
         MenuItem menuSave = menu.findItem(R.id.item_climb_save);
-        MenuItem menuEdit= menu.findItem(R.id.item_climb_edit);
+        MenuItem menuEdit= menu.findItem(R.id.item_climb_update);
         if(climbID==-1)  {
             menuEdit.setVisible(false);
         }else {
@@ -164,7 +164,7 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
                 Toast.makeText(getContext(), getResources().getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
 
                 return true;
-            case R.id.item_climb_edit:
+            case R.id.item_climb_update:
                 //Update Entry
                 log.setID(climbID);
                 dbHelp.updateClimbLogEntry(log);
@@ -274,6 +274,8 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
                 height.setText(log.getHeight());
             }
             //Comments left blank in log, so no placeholder needs removing
+            //Comments
+            if(!(log.getComments().equals(getResources().getString(R.string.db_no_comment))))
             comments.setText(log.getComments());
 
             //Set spinner positions from database
@@ -380,7 +382,7 @@ public class NewClimbFragment extends Fragment implements AdapterView.OnItemSele
         //Comments
         text = (EditText)getView().findViewById(R.id.edit_comments);
         if(text.getText().toString().equals("")) {
-            comments = "No Comments";
+            comments = getResources().getString(R.string.db_no_comment);
         }else {
             comments = text.getText().toString();
         }

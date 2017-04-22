@@ -7,8 +7,8 @@
             android:title="@string/save"
             app:showAsAction="always"/>
     <item
-        android:id="@+id/item_climb_edit"
-        android:title="@string/button_edit"
+        android:id="@+id/item_climb_update"
+        android:title="@string/button_update"
         app:showAsAction="always"/>
 
 </menu>

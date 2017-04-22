@@ -20,11 +20,12 @@
     <string name="db_no_location">Location not Specified</string>
     <string name="db_no_grade">Ungraded Climb</string>
     <string name="db_no_height">No Height Set</string>
+    <string name="db_no_comment">No Comments</string>
 
     <!--Delete Dialog-->
     <string name="title_are_you_sure">Are You Sure?</string>
-    <string name="message_delete_all">This will remove all log entries from the app, and cannot be undone.</string>
-    <string name="message_delete_selection">This will remove selected log entries from the app, and cannot be undone.</string>
+    <string name="message_delete_all">This will delete all log entries!</string>
+    <string name="message_delete_selection">This will delete selected Log Entries!</string>
 
 
     <!--Buttons-->

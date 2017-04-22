@@ -12,16 +12,25 @@ import android.widget.TextView;
 import com.clmain.dissertationapp.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragent to display an entry from the dictionary
  */
 public class DictionaryEntryFragment extends Fragment {
     String titleString;
     int pos;
 
+    /**
+     * Required empty Constructor
+     */
     public DictionaryEntryFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Called on Fragment Creation.
+     * retreives title from Bundle
+     * retreives position of element selected to create fragment from Bundle
+     * @param savedInstanceState Data to recreate fragment
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +42,13 @@ public class DictionaryEntryFragment extends Fragment {
 
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
+    /**
+     * Inflates Layout for Fragment
+     * @param inflater - Layout Inflater
+     * @param container - Parent View to attach fragment to
+     * @param savedInstanceState - Data to reconstruct fragment from
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,63 +56,35 @@ public class DictionaryEntryFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_dictionary_entry, container, false);
     }
 
+    /**
+     * Called when fragment is visible to user.
+     * Sets Content of View
+     */
     @Override
     public void onStart() {
         super.onStart();
         TextView textView;
 
-        try {
-            textView = (TextView)getView().findViewById(R.id.dictionary_entry_title);
-            textView.setText(titleString);
-            setImg(titleString);
-            textView = (TextView)getView().findViewById(R.id.dictionary_entry_definition);
-            textView.setText(getResources().getStringArray(R.array.dictionary_definition_techniques)[pos]);
-
-        }catch (Exception e) {
-            textView = (TextView)getView().findViewById(R.id.dictionary_entry_title);
-            textView.setText("Oops, something went wrong. See Logs");
-            System.out.println(e);
-        }
-
-
+        textView = (TextView)getView().findViewById(R.id.dictionary_entry_title);
+        textView.setText(titleString);
+        setImg(titleString);
+        textView = (TextView)getView().findViewById(R.id.dictionary_entry_definition);
+        textView.setText(getResources().getStringArray(R.array.dictionary_definition_techniques)[pos]);
     }
 
+    /**
+     * Sets image value
+     * @param title - Title, used to identify photo
+     */
     private void setImg(String title) {
         ImageView image = (ImageView)getView().findViewById(R.id.dictionary_entry_image);
         final String[] titles = getResources().getStringArray(R.array.dictionary_definition_techniques);
 
         switch (title) {
-            case "Arete (Technique)":
-                image.setImageResource(R.mipmap.ic_launcher);
-                break;
-            case "Barndoor":
-                image.setImageResource(R.mipmap.ic_launcher);
-                break;
-            case "Beta":
-                image.setImageResource(R.mipmap.ic_launcher);
-                break;
             case "Crimp":
                 image.setImageResource(R.mipmap.image_crimp);
                 break;
-            case "Crux":
-                image.setImageResource(R.mipmap.ic_launcher);
-                break;
-            case "Fist Jam":
-                image.setImageResource(R.mipmap.ic_launcher);
-                break;
-            case "Flagging":
-                image.setImageResource(R.mipmap.ic_launcher);
-                break;
-            case "Heel Hook":
-                image.setImageResource(R.mipmap.ic_launcher);
-                break;
-            case "Rock Over":
-                image.setImageResource(R.mipmap.ic_launcher);
-                break;
-            case "Smearing":
-                image.setImageResource(R.mipmap.ic_launcher);
-                break;
-            case "Toe Hook":
+            default:
                 image.setImageResource(R.mipmap.ic_launcher);
                 break;
         }
